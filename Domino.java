@@ -47,6 +47,7 @@ public class Domino {
 		                Face facedroite = new Face(nbCouronne2, type2);
 		                
 		                Domino domino = new Domino(numeroDomino,facegauche, facedroite);
+				    listdomino.add(domino);
 		            }
 		            
 		        }
