@@ -55,16 +55,67 @@ public class Deroulement {
 	}
 	
 	public static void creationJoueur() {
-		NombreJoueurs();
-		for (int i=0;i<Joueurs.nbrjoueurs;i++) {
-			Joueurs joueur=new Joueurs();
-			Joueurs.listjoueurs.add(joueur);
+		int a=NombreJoueurs();
+		if(a==2) {
+			System.out.println("Rentrez le nom du Joueur 1");
+			Scanner scan1=new Scanner(System.in);
+			Joueurs joueur1=new Joueurs();
+			joueur1.setName(scan1.nextLine());
+			System.out.println("Rentrez le nom du Joueur 2");
+			Scanner scan2=new Scanner(System.in);
+			Joueurs joueur2=new Joueurs();
+			joueur2.setName(scan2.nextLine());
+			Joueurs.getListjoueurs().add(joueur1);
+			System.out.println(joueur1.getName());
+			Joueurs.getListjoueurs().add(joueur2);
+			System.out.println(joueur2.getName());
+			}
+		if(a==3) {
+			System.out.println("Rentrez le nom du Joueur 1");
+			Scanner scan1=new Scanner(System.in);
+			Joueurs joueur1=new Joueurs();
+			joueur1.setName(scan1.nextLine());
+			System.out.println("Rentrez le nom du Joueur 2");
+			Scanner scan2=new Scanner(System.in);
+			Joueurs joueur2=new Joueurs();
+			joueur2.setName(scan2.nextLine());
+			System.out.println("Rentrez le nom du Joueur ");
+			Scanner scan3=new Scanner(System.in);
+			Joueurs joueur3=new Joueurs();
+			joueur3.setName(scan3.nextLine());
+			Joueurs.getListjoueurs().add(joueur1);
+			Joueurs.getListjoueurs().add(joueur2);
+			Joueurs.getListjoueurs().add(joueur3);
+			
 		}
-		NomJoueur();
+		if(a==4) {
+			System.out.println("Rentrez le nom du Joueur 1");
+			Scanner scan1=new Scanner(System.in);
+			Joueurs joueur1=new Joueurs();
+			joueur1.setName(scan1.nextLine());
+			System.out.println("Rentrez le nom du Joueur 2");
+			Scanner scan2=new Scanner(System.in);
+			Joueurs joueur2=new Joueurs();
+			joueur2.setName(scan2.nextLine());
+			System.out.println("Rentrez le nom du Joueur 3");
+			Scanner scan3=new Scanner(System.in);
+			Joueurs joueur3=new Joueurs();
+			joueur3.setName(scan3.nextLine());
+			System.out.println("Rentrez le nom du Joueur 4 ");
+			Scanner scan4=new Scanner(System.in);
+			Joueurs joueur4=new Joueurs();
+			joueur4.setName(scan4.nextLine());
+			Joueurs.getListjoueurs().add(joueur1);
+			Joueurs.getListjoueurs().add(joueur2);
+			Joueurs.getListjoueurs().add(joueur3);
+			Joueurs.getListjoueurs().add(joueur4);
+			
+		}
+		
 		
 	}
 	
-	public static void NombreJoueurs() {
+	public static int NombreJoueurs() {
 		Scanner nbjoueur=new Scanner(System.in);
 		System.out.println("Indiquer le nombre de joueur: ? ");
 		while(!nbjoueur.hasNext("[2-4]")) {
@@ -72,6 +123,8 @@ public class Deroulement {
 		nbjoueur.next();
 		}
 		Joueurs.nbrjoueurs=nbjoueur.nextInt();
+		return Joueurs.nbrjoueurs;
+		
 		
 	}
 
@@ -81,9 +134,12 @@ public class Deroulement {
 		System.out.println("Rentrez le noms des participants");
 		Scanner scan= new Scanner(System.in);
 		int i=1;
-		for(i=1;i<Joueurs.listjoueurs.size()+1;i++) {
+		for(i=1;i<Joueurs.nbrjoueurs+1;i++) {
 			System.out.println("pseudo du joueur"+i+" : ");
 			Joueurs.name=scan.nextLine();
+			
+			
+			
 		}
 	}
 	public static void ChoisirRois() {
@@ -99,7 +155,7 @@ public class Deroulement {
 		
 		if(Joueurs.nbrjoueurs==2) {
 			System.out.println("Vous etes "+Joueurs.nbrjoueurs+" ainsi vous devez choisir 2 rois chacun");
-			for(Joueurs joueurtest:Joueurs.listjoueurs) {
+			for(Joueurs joueurtest:Joueurs.getListjoueurs()) {
 				Scanner rois=new Scanner(System.in);
 				
 				System.out.println(joueurtest.getName());
@@ -129,7 +185,7 @@ public class Deroulement {
 						joueurtest.listrois.add(vert);
 						Rois.listrois.remove(vert);
 					}
-			}for(Joueurs joueurtest:Joueurs.listjoueurs) {
+			}for(Joueurs joueurtest:Joueurs.getListjoueurs()) {
 				Scanner rois=new Scanner(System.in);
 				
 				System.out.println(joueurtest.getName());
@@ -165,7 +221,7 @@ public class Deroulement {
 			}
 					if(Joueurs.nbrjoueurs==3||Joueurs.nbrjoueurs==4) {
 						System.out.println("Vous etes "+Joueurs.nbrjoueurs+" ainsi vous devez choisir 1 roi chacun");
-						for(Joueurs joueurtest:Joueurs.listjoueurs) {
+						for(Joueurs joueurtest:Joueurs.getListjoueurs()) {
 							Scanner rois=new Scanner(System.in);
 							
 							System.out.println("Chossissez parmi ces rois ");
