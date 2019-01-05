@@ -10,7 +10,7 @@ public class Domino {
 		private int numDomino;
 		Face facegauche;
 		Face facedroite;
-		ArrayList<Domino> listdomino= new ArrayList<Domino>();
+		static ArrayList<Domino> listdomino= new ArrayList<Domino>();
 		
 		
 		
@@ -24,7 +24,7 @@ public class Domino {
 		
 		}
 		
-		private static void creationliste() throws FileNotFoundException, IOException {
+		public static void creationliste() throws FileNotFoundException, IOException {
 			
 			 String line = "";
 		       
@@ -47,12 +47,16 @@ public class Domino {
 		                Face facedroite = new Face(nbCouronne2, type2);
 		                
 		                Domino domino = new Domino(numeroDomino,facegauche, facedroite);
-				    listdomino.add(domino);
-		            }
 		            
-		        }
-		                
+		                listdomino.add(domino);
 		            }
+		                
+		                	
+		        }
+		}
+		            
+		                
+		            
 		
 	
 			
