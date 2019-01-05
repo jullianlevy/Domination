@@ -4,15 +4,15 @@ public class Rois {
 
 	public static ArrayList<Rois> listrois= new ArrayList<Rois>();
 	private Couleur colorRoi;
+	private int nbr;
 	
-	public Rois(Couleur colorRoi) {
+	public Rois(Couleur colorRoi,int nbr) {
 		this.colorRoi=colorRoi;
+		this.nbr=nbr;
 		
 		
 	}
-	public void addrois() {
-		Rois.listrois.add(new Rois(this.colorRoi));
-	}
+	
 	
 	
 	
@@ -21,6 +21,20 @@ public class Rois {
 	}
 	public void setColorRoi(Couleur colorRoi) {
 		this.colorRoi = colorRoi;
+	}
+
+
+
+
+	public int getNbr() {
+		return nbr;
+	}
+
+
+
+
+	public void setNbr(int nbr) {
+		this.nbr = nbr;
 	}
 	
 	
