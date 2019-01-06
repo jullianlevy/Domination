@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Joueurs {
 
-	public static String name;
+	public  String name;
 	static int nbrjoueurs;
 	private int score;
 	static ArrayList<Joueurs> listjoueurs=new ArrayList<Joueurs>();
@@ -17,7 +17,9 @@ public class Joueurs {
 	
 	
 	
-	public Joueurs() {
+	public Joueurs(String name) {
+		this.name=name;
+
 
 	
 }
@@ -41,7 +43,7 @@ public void NombreJoueurs() {
 public void NomJoueur() {
 	Scanner scan= new Scanner(System.in);
 	int i=0;
-	for(i=0;i<listjoueurs.size();i++) {
+	for(i=0;i<getListjoueurs().size();i++) {
 		System.out.println("joueur "+i+1);
 		name=scan.nextLine();
 	}
@@ -62,7 +64,12 @@ public void NomJoueur() {
 	}
 
 
-
+	public ArrayList<Joueurs> getListJoueurs() {
+		return this.getListjoueurs();
+	}
+	public void setListeRois(ArrayList<Joueurs> listjoueurs) {
+		this.setListjoueurs(listjoueurs);
+	}
 
 
 
@@ -78,4 +85,20 @@ public void NomJoueur() {
 	public void setScore(int score) {
 		this.score = score;
 	}
+
+
+
+
+	public static ArrayList<Joueurs> getListjoueurs() {
+		return listjoueurs;
+	}
+
+
+
+
+	public void setListjoueurs(ArrayList<Joueurs> listjoueurs) {
+		this.listjoueurs = listjoueurs;
+	}
+
+
 }
