@@ -4,29 +4,25 @@ import java.util.Scanner;
 
 public class test {
 	public static void main(String[] args) throws FileNotFoundException, IOException {
-		//Deroulement.creationJoueur();
-		Joueurs jullian=new Joueurs();
-		Joueurs paul=new Joueurs();
-		paul.setName("paul");
-		jullian.setName("jullian");
-		Joueurs.listjoueurs.add(paul);
-		Joueurs.listjoueurs.add(jullian);
-		for(Joueurs joueur:Joueurs.listjoueurs) {
-			
-			System.out.println(joueur.getName());
 		
+		System.out.println("--------------------------------------");
+		System.out.println("BIENVENUE DOMIN'ATION");
+		System.out.println("--------------------------------------");
+		System.out.println("");
+		
+	
+		Deroulement.creationJoueur();
+		Domino.creationliste();
+		Deroulement.ChoisirRois();
+		
+	
+		for(Joueurs joueur:Joueurs.listjoueurs) {
+			for(Rois roi:joueur.listrois) {
+				System.out.println(roi.getColorRoi()+"  "+joueur.getName());
+			}
 		}
-		Rois bleu=new Rois(Couleur.BLEU,1);
-		Rois jaune=new Rois(Couleur.JAUNE,2);
-		Rois rouge=new Rois(Couleur.ROUGE,3);
-		Rois vert=new Rois(Couleur.VERT,4);
-		Rois.listrois.add(vert);
-		Rois.listrois.add(jaune);
-		Rois.listrois.add(rouge);
-		Rois.listrois.add(bleu);
-		for (Rois roi:Rois.listrois) {
-			System.out.println();
-		}
+		
+
 			
 		
 	
