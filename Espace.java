@@ -18,7 +18,7 @@ public class Espace {
 		chateau.setNbCouronne(0);
 	}
 	
-	// 1. Choix du domino
+	// 1. Coordonnées du domino
 	// 2. Orientation du domino 
 	// 3. est ce que c'est jouable AKA :-  Cases a coté ( chateau + terrain ) 
 	// 								 -  x et y E 1 ; 9 
