@@ -1,7 +1,6 @@
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
-
 public class Espace {
 	static final int largeurY=9;
 	static final int longueurX=9;
@@ -14,9 +13,9 @@ public class Espace {
 				grille[i][j]=new Case(i,j);
 			}
 		}
-		chateau=grille[4][4];
-		chateau.setTerrain(Type.Terrain.CHATEAU);
-		chateau.setNbCouronnes(0);
+		Case chateau=grille[4][4];
+		chateau.setTerrain(TypeTerrain.CHATEAU);
+		chateau.setNbCouronne(0);
 	}
 			
 	
