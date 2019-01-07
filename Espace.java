@@ -131,6 +131,24 @@ public class Espace {
 		return cooB;
 		
 	}
+
+	public static boolean testB(int[] cooB) {
+		
+		if (!((cooB[0] >= 1) && (cooB[0] <= 9))) {
+			System.out.println("Rotation incorrecte !");
+			return false;
+		}
+		
+		else if (!((cooB[1] >= 1) && (cooB[1] <= 9))) {
+			System.out.println("Rotation incorrecte !");
+			return false;
+			
+		}
+		
+		else {
+			return true;
+		}
+	}
 	
 	
 	//Coordonnées de A ( sous la forme d'une seule variable ) 
