@@ -142,6 +142,12 @@ public class Espace {
 		return cooA;
 	}
 
+	// Check list pour poser le domino :
+	// Cases cooA et cooB dans les limites du plateau.
+	// Cases en cooA et cooB libres.
+	// Cases adjacentes selon les règles : 
+	//       - SI TOUR 1 : Adjacent au château.
+	//       - SI TOUR n : Liens de Terrain. 
 	
 
 	
