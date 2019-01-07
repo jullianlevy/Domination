@@ -24,6 +24,38 @@ public class Espace {
 	// 								 -  x et y E 1 ; 9 
 	//                               -  Case nulle
 	// une fois que tt est ok passage à un autre joueur
+	
+	
+	
+	// Choix des Coordonnées du domino
+	public static int choixCoordonneesX() {
+		int cooX ;
+		
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Coordonnée X de la face A ?");
+		while(!scan.hasNext("[1-9]")) {
+			System.out.println("Entrez une coordonnée comprise entre 1 et 9");
+			scan.next();
+		}
+		cooX = scan.nextInt();
+		return cooX;
+		
+
+	}
+	
+	public static int choixCoordonneesY() {
+		int cooY ;
+		
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Coordonnée Y de la face A ?");
+		while(!scan.hasNext("[1-9]")) {
+			System.out.println("Entrez une coordonnée comprise entre 1 et 9");
+			scan.next();
+		}
+		cooY = scan.nextInt();
+		return cooY;
+	}
+		
 		
 	
 	//Choix de l'orientation du domino
