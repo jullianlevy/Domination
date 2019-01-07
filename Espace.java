@@ -18,11 +18,12 @@ public class Espace {
 		chateau.setNbCouronne(0);
 	}
 	
-	// 1. Coordonnées du domino
-	// 2. Orientation du domino 
-	// 3. est ce que c'est jouable AKA :-  Cases a coté ( chateau + terrain ) 
-	// 								 -  x et y E 1 ; 9 
-	//                               -  Case nulle
+	// 1. Coordonnées de la Face A.
+	// 2. Orientation du domino.
+	// 3. Coordonnées de la Face B.
+	// 4. est ce que c'est jouable AKA : -  Cases a coté ( chateau + terrain ) 
+	// 				     -  x et y E 1 ; 9 
+	//                                   -  Case nulle
 	// une fois que tt est ok passage à un autre joueur
 	
 	
@@ -99,7 +100,48 @@ public class Espace {
 		
 		
 	}	
+
+	// Coordonnées de B ( Rotation ) 
+	public static int[] rotation(String orientation, int cooX, int cooY) {	
+		int[] cooB = new int[2];
+		int cooX2;
+		int cooY2;
+		switch(orientation) {
+		case ("Haut"): 
+			cooX2 = cooX; 
+			cooY2 = cooY - 1;
+			break;
+		case ("Droite"):
+			cooX2 = cooX - 1;
+			cooY2 = cooY;
+			break;
+		case("Bas"):
+			cooX2 = cooX;
+			cooY2 = cooY + 1;
+			break;
+		case("Gauche"): 
+			cooX2 = cooX + 1;
+			cooY2 = cooY;
+			break;
+		}
+
+		cooB[0] = cooX2;
+		cooB[1] = cooY2; 
+
+		return cooB;
+		
+	}
 	
+	
+	//Coordonnées de A ( sous la forme d'une seule variable ) 
+	public static int[] coordonnesA(int cooX, int cooY) {
+		int[] cooA = new int[2];
+		cooA[0] = cooX;
+		cooA[1] = cooY;
+		
+		return cooA;
+	}
+
 	
 
 	
