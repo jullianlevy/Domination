@@ -17,8 +17,17 @@ public class Espace {
 		chateau.setTerrain(TypeTerrain.CHATEAU);
 		chateau.setNbCouronne(0);
 	}
-			
-	public static String orientation() { //Choix de l'orientation du domino
+	
+	// 1. Choix du domino
+	// 2. Orientation du domino 
+	// 3. est ce que c'est jouable AKA :-  Cases a coté ( chateau + terrain ) 
+	// 								 -  x et y E 1 ; 9 
+	//                               -  Case nulle
+	// une fois que tt est ok passage à un autre joueur
+		
+	
+	//Choix de l'orientation du domino
+	public static String orientation() { 
 		int sens ;
 		String orientation ="";
 		
