@@ -3,14 +3,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Espace {
-	static int largeur=9;
-	static int longueur=9;
-	Case[][] grille=new Case[largeur][hauteur];
+	static final int largeurY=9;
+	static final int longueurX=9;
+	Case[][] grille=new Case[longueurX][largeurY];
 	
 	
 	public Espace(){
-		for(int i=0;i<longueur;i++){
-			for(int j=0;j<largeur;j++){
+		for(int i=0;i<longueurX;i++){
+			for(int j=0;j<largeurY;j++){
 				grille[i][j]=new Case(i,j);
 			}
 		}
