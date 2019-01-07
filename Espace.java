@@ -167,6 +167,10 @@ public class Espace {
 	//       - SI TOUR 1 : Adjacent au château.
 	//       - SI TOUR n : Liens de Terrain. 
 	
+	public static boolean libre(int[] cooA,int[] cooB) {
+
+	}
+
 
 	
 
