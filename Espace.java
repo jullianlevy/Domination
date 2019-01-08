@@ -10,12 +10,13 @@ public class Espace {
 	public Espace(){
 		for(int i=0;i<longueurX;i++){
 			for(int j=0;j<largeurY;j++){
-				grille[i][j]=new Case(i,j);
+				this.grille[i][j]=new Case(i,j);
 			}
 		}
-		Case chateau=grille[4][4];
-		chateau.setTerrain(TypeTerrain.CHATEAU);
-		chateau.setNbCouronne(0);
+		
+		Case chateau = this.grille[4][4];
+		chateau.setTerrain(Type.Terrain.CHATEAU);
+		chateau.setNbCouronnes(0);
 	}
 	
 	// 1. Coordonnées de la Face A.
