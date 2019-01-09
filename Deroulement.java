@@ -1,112 +1,162 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import javafx.scene.paint.Color;
+
 
 import java.util.Random;
 import java.util.Collections;
 
 public class Deroulement {
-	static ArrayList<String> couleur=new ArrayList<String>();
+	ArrayList<String> couleur=new ArrayList<String>();
+	ArrayList<Joueurs> listjoueurs=new ArrayList<Joueurs>();
+	int nbrjoueurs;
+	ArrayList<Domino> listdomino= new ArrayList<Domino>();
+	ArrayList<Rois> listrois= new ArrayList<Rois>();
 
+	public Deroulement() throws FileNotFoundException, IOException {
+		System.out.println("--------------------------------------");
+		System.out.println("BIENVENUE DOMIN'ATION");
+		System.out.println("--------------------------------------");
+		System.out.println("");
+		
+	
+		creationJoueur();
+		creationliste();
+		ChoisirRois();
+		
+	}
 	
 	
-	
-	public static void NombreDomino() {
+	public void NombreDomino() {
 		Random rand=new Random();
-		if(Joueurs.nbrjoueurs==2) {
+		if(nbrjoueurs==2) {
 			for(int i=0;i<24;i++) {
-				int nbAleatoire = rand.nextInt(Domino.listdomino.size());
+				int nbAleatoire = rand.nextInt(listdomino.size());
 				
-				Domino.listdomino.remove(nbAleatoire);
+				listdomino.remove(nbAleatoire);
 				}
-			for(int i=0;i<Domino.listdomino.size();i++) {
-				System.out.println("domino est "+Domino.listdomino.get(i).getNumDomino());
+			for(int i=0;i<listdomino.size();i++) {
+				System.out.println("domino est "+listdomino.get(i).getNumDomino());
 			}
 		}
-		if(Joueurs.nbrjoueurs==3) {
+		if(nbrjoueurs==3) {
 			for(int i=0;i<12;i++) {
-				int nbAleatoire = rand.nextInt(Domino.listdomino.size());
-				Domino.listdomino.remove(nbAleatoire);
+				int nbAleatoire = rand.nextInt(listdomino.size());
+				listdomino.remove(nbAleatoire);
 					}
-			for(int i=0;i<Domino.listdomino.size();i++) {
-				System.out.println("domino est "+Domino.listdomino.get(i).getNumDomino());
+			for(int i=0;i<listdomino.size();i++) {
+				System.out.println("domino est "+listdomino.get(i).getNumDomino());
 		}
 		}
 		System.out.println("--------------------------------------");
 		
 }
 	
-	public static void Melangerdom() {
-		System.out.println("Les "+Domino.listdomino.size()+" dominos sont mélangés");
-		Collections.shuffle(Domino.listdomino);
-		for(int i=0;i<Domino.listdomino.size();i++) {
-			System.out.println("domino est "+Domino.listdomino.get(i).getNumDomino());
+	public void Melangerdom() {
+		System.out.println("Les "+listdomino.size()+" dominos sont mélangés");
+		Collections.shuffle(listdomino);
+		for(int i=0;i<listdomino.size();i++) {
+			System.out.println("domino est "+listdomino.get(i).getNumDomino());
 		}
 		
 		
 	}
 	
-	public static void showdomino() {
+	public void creationliste() throws FileNotFoundException, IOException {
 		
-		for(int i=0;i<Domino.listdomino.size();i++) {
-			System.out.println("domino est "+Domino.listdomino.get(i).getNumDomino());
+		 String line = "";
+	       
+	        try (BufferedReader br = new BufferedReader(new FileReader("dominos.csv"))) {
+	        	
+	        	br.readLine();
+
+	            while ((line = br.readLine()) != null) {
+
+	                
+	                String[] values = line.split(",");
+	                
+	                int nbCouronne1 = Integer.valueOf(values[0]);
+	                String type1 = String.valueOf(values[1]);
+	                int nbCouronne2 = Integer.valueOf(values[2]);
+	                String type2 = String.valueOf(values[3]);
+	                int numeroDomino = Integer.valueOf(values[4]);
+	                
+	                Face facegauche = new Face(nbCouronne1, type1);
+	                Face facedroite = new Face(nbCouronne2, type2);
+	                
+	                Domino domino = new Domino(numeroDomino,facegauche, facedroite);
+	            
+	                listdomino.add(domino);
+	            }
+	                
+	                	
+	        }
+	}
+	
+	public void showdomino() {
+		
+		for(int i=0;i<listdomino.size();i++) {
+			System.out.println("domino est "+listdomino.get(i).getNumDomino());
 		}
 	}
 	
-	public static void creationJoueur() {
+	public void creationJoueur() {
 		NombreJoueurs();
 		
 		NomJoueur();
 		
 	}
 	
-	public static void NombreJoueurs() {
+	public void NombreJoueurs() {
 		Scanner nbjoueur=new Scanner(System.in);
 		System.out.println("Tout d'abord il vous faut indiquer ci dessous le nombre de joueur compris entre 2 et 4 joueurs:  ");
 		while(!nbjoueur.hasNext("[2-4]")) {
 			System.out.println("-----------Attention, veuillez resaisir le nombre de joueurs---------");
 		nbjoueur.next();
 		}
-		Joueurs.nbrjoueurs=nbjoueur.nextInt();
+		nbrjoueurs=nbjoueur.nextInt();
 		
 		
 	}
 
 
 
-	public static void NomJoueur() {
+	public void NomJoueur() {
 		System.out.println("Rentrez le noms des participants");
 		Scanner scan= new Scanner(System.in);
 		int i=1;
-		for(i=1;i<Joueurs.nbrjoueurs+1;i++) {
+		for(i=1;i<nbrjoueurs+1;i++) {
 			System.out.println("pseudo du joueur"+i+" : ");
 			Joueurs joueur =new Joueurs(scan.nextLine());
-			Joueurs.listjoueurs.add(joueur);
+			listjoueurs.add(joueur);
 			
 			
 		}
 	}
-	public static void ChoisirRois() {
+	public void ChoisirRois() {
 		Rois bleu=new Rois(Couleur.BLEU,1);
 		Rois jaune=new Rois(Couleur.JAUNE,2);
 		Rois rouge=new Rois(Couleur.ROUGE,3);
 		Rois vert=new Rois(Couleur.VERT,4);
-		Rois.listrois.add(vert);
-		Rois.listrois.add(jaune);
-		Rois.listrois.add(rouge);
-		Rois.listrois.add(bleu);
+		listrois.add(vert);
+		listrois.add(jaune);
+		listrois.add(rouge);
+		listrois.add(bleu);
 		
 		
-		if(Joueurs.nbrjoueurs==2) {
-			System.out.println("Vous etes "+Joueurs.nbrjoueurs+" ainsi vous devez choisir 2 rois chacun");
-			for(Joueurs joueurtest:Joueurs.listjoueurs) {
+		if(nbrjoueurs==2) {
+			System.out.println("Vous etes "+nbrjoueurs+" ainsi vous devez choisir 2 rois chacun");
+			for(Joueurs joueurtest:listjoueurs) {
 				Scanner rois=new Scanner(System.in);
 				
 				System.out.println(joueurtest.getName());
 				System.out.println("Chossissez parmi ces rois ");
 				
-				for(Rois roi:Rois.listrois) {
+				for(Rois roi:listrois) {
 					System.out.println(roi.getColorRoi()+"  : TAPER "+roi.getNbr());
 					
 					}while(!rois.hasNext("[1-4]")) {
@@ -118,25 +168,25 @@ public class Deroulement {
 					int reponse=rois.nextInt();
 					if(reponse==bleu.getNbr()) {
 						joueurtest.listrois.add(bleu);
-						Rois.listrois.remove(bleu);
+						listrois.remove(bleu);
 					}
 					if(reponse==rouge.getNbr()) {
 						joueurtest.listrois.add(rouge);
-						Rois.listrois.remove(rouge);
+						listrois.remove(rouge);
 					}if(reponse==jaune.getNbr()) {
 						joueurtest.listrois.add(jaune);
-						Rois.listrois.remove(jaune);
+						listrois.remove(jaune);
 					}if(reponse==vert.getNbr()) {
 						joueurtest.listrois.add(vert);
-						Rois.listrois.remove(vert);
+						listrois.remove(vert);
 					}
-			}for(Joueurs joueurtest:Joueurs.listjoueurs) {
+			}for(Joueurs joueurtest:listjoueurs) {
 				Scanner rois=new Scanner(System.in);
 				
 				System.out.println(joueurtest.getName());
 				System.out.println("Chossissez parmi ces rois ");
 				
-				for(Rois roi:Rois.listrois) {
+				for(Rois roi:listrois) {
 					System.out.println(roi.getColorRoi()+"  : TAPER "+roi.getNbr());
 					
 					}while(!rois.hasNext("[1-4]")) {
@@ -148,29 +198,29 @@ public class Deroulement {
 					int reponse=rois.nextInt();
 					if(reponse==bleu.getNbr()) {
 						joueurtest.listrois.add(bleu);
-						Rois.listrois.remove(bleu);
+						listrois.remove(bleu);
 					}
 					if(reponse==rouge.getNbr()) {
 						joueurtest.listrois.add(rouge);
-						Rois.listrois.remove(rouge);
+						listrois.remove(rouge);
 					}if(reponse==jaune.getNbr()) {
 						joueurtest.listrois.add(jaune);
-						Rois.listrois.remove(jaune);
+						listrois.remove(jaune);
 					}if(reponse==vert.getNbr()) {
 						joueurtest.listrois.add(vert);
-						Rois.listrois.remove(vert);
+						listrois.remove(vert);
 					}		
 			}
 				
 				
 			}
-					if(Joueurs.nbrjoueurs==3||Joueurs.nbrjoueurs==4) {
-						System.out.println("Vous etes "+Joueurs.nbrjoueurs+" ainsi vous devez choisir 1 roi chacun");
-						for(Joueurs joueurtest:Joueurs.listjoueurs) {
+					if(nbrjoueurs==3||nbrjoueurs==4) {
+						System.out.println("Vous etes "+nbrjoueurs+" ainsi vous devez choisir 1 roi chacun");
+						for(Joueurs joueurtest:listjoueurs) {
 							Scanner rois=new Scanner(System.in);
 							System.out.println(joueurtest.getName());
 							System.out.println("Chossissez parmi ces rois ");
-							for(Rois roi:Rois.listrois) {
+							for(Rois roi:listrois) {
 								System.out.println(roi.getColorRoi()+"  : TAPER "+roi.getNbr());
 								
 								}while(!rois.hasNext("[1-4]")) {
@@ -182,17 +232,17 @@ public class Deroulement {
 								int reponse=rois.nextInt();
 								if(reponse==bleu.getNbr()) {
 									joueurtest.listrois.add(bleu);
-									Rois.listrois.remove(bleu);
+									listrois.remove(bleu);
 								}
 								if(reponse==rouge.getNbr()) {
 									joueurtest.listrois.add(rouge);
-									Rois.listrois.remove(rouge);
+									listrois.remove(rouge);
 								}if(reponse==jaune.getNbr()) {
 									joueurtest.listrois.add(jaune);
-									Rois.listrois.remove(jaune);
+									listrois.remove(jaune);
 								}if(reponse==vert.getNbr()) {
 									joueurtest.listrois.add(vert);
-									Rois.listrois.remove(vert);
+									listrois.remove(vert);
 								}
 						}
 		}
@@ -213,9 +263,5 @@ public class Deroulement {
 		
 		
 	}
-
-
-
-
 	
 
