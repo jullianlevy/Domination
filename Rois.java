@@ -1,4 +1,4 @@
-package jeux;
+
 import java.util.ArrayList;
 
 public class Rois {
