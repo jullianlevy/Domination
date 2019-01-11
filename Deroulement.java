@@ -16,26 +16,33 @@ public class Deroulement {
 
 	ArrayList<String> couleur = new ArrayList<String>();
 	ArrayList<Joueurs> listjoueurs = new ArrayList<>();
+	ArrayList<ArrayList> listzone= new ArrayList<>();
+	ArrayList<Case> listcase=new ArrayList<>();
 	ArrayList<Domino> listdomino = new ArrayList<>();
 	ArrayList<Domino> pioche = new ArrayList<Domino>();
 	ArrayList<Rois> listrois = new ArrayList<Rois>();
 	ArrayList<Domino> ordredomino = new ArrayList<Domino>();
 	ArrayList<Espace> Espaces = new ArrayList<Espace>();
-
+	
+	
+//LE JEUX TOTAL
+	
 	public Deroulement() throws FileNotFoundException, IOException {
 
-		creationJoueur();
-		creationliste();
+		
 		for (Joueurs jo : listjoueurs) {
 			Espace plateau = new Espace();
+			
 		}
 
 		Jeux();
 
 	}
 
-	// On prepare le jeux
+// DEBUT DU JEU
 	public void Jeux() {
+		creationJoueur();
+		
 		NombreDomino();
 		System.out.println("-------------");
 		ChoisirRois();
@@ -47,29 +54,13 @@ public class Deroulement {
 			System.out.println("---------   TOUR N°" + a + "   ----------");
 
 			tour();
-
 			Toursuivant();// Liste joueurs modifié (son id) pour le tour suivant
 		}
 
 	}
 	
-	public void placeDomino() {
-	choixCoordonneesX();
-	choixCoordonneesY();
-	orientation();
-	rotation(orientation(), choixCoordonneesX(),choixCoordonneesY());
-	testB(rotation(orientation(),choixCoordonneesX(),choixCoordonneesY()));
-	coordonneesA(choixCoordonneesX(),choixCoordonneesY());
-
-	}
-
-	public void creationJoueur() {
-		NombreJoueurs();
-
-		NomJoueur();
-
-	}
-
+//PREPARATION DE CHAQUE TOUR 
+	
 	public void tour() {
 		Melangerdom();
 		System.out.println("-------------");
@@ -79,9 +70,39 @@ public class Deroulement {
 
 		showpioche();
 		choisirdomino();// choix domino
+		for(Joueurs jou:listjoueurs) {
+			printPlateau(jou);
+			placeDomino();
+		}
+		
 
 	}
 
+	
+	
+//FONCTION ANNEXES DOMINO	
+	
+	public void placeDomino() {
+		
+		// 1. CoordonnÃ©es de la Face A.
+		// 2. Orientation du domino.
+		// 3. CoordonnÃ©es de la Face B.
+		// 4. est ce que c'est jouable AKA : - Cases a cotÃ© ( chateau + terrain )
+		// - x et y E 1 ; 9
+		// - Case nulle
+		// une fois que tt est ok passage Ã  un autre joueur
+
+		// Choix des CoordonnÃ©es du domino
+		
+		choixCoordonneesX();
+		choixCoordonneesY();
+		orientation();
+		rotation(orientation(), choixCoordonneesX(),choixCoordonneesY());
+		testB(rotation(orientation(),choixCoordonneesX(),choixCoordonneesY()));
+		coordonneesA(choixCoordonneesX(),choixCoordonneesY());
+
+		}
+	
 	public void choisirdomino() {
 
 		if (Joueurs.nbrjoueurs == 2) {
@@ -182,227 +203,6 @@ public class Deroulement {
 
 		mesDom();
 	}
-
-	public void plateauJoueur() {
-		for (int i = 0; i < Joueurs.nbrjoueurs; i++) {
-			Espace individuel = new Espace();
-			Espaces.add(individuel);
-		}
-
-		int i = 0;
-		for (Joueurs joueur : listjoueurs) {
-			joueur.plateau = Espaces.get(i);
-			i++;
-		}
-	}
-
-	// 1. CoordonnÃ©es de la Face A.
-	// 2. Orientation du domino.
-	// 3. CoordonnÃ©es de la Face B.
-	// 4. est ce que c'est jouable AKA : - Cases a cotÃ© ( chateau + terrain )
-	// - x et y E 1 ; 9
-	// - Case nulle
-	// une fois que tt est ok passage Ã  un autre joueur
-
-	// Choix des CoordonnÃ©es du domino
-	public static int choixCoordonneesX() {
-		int cooX;
-
-		Scanner scan = new Scanner(System.in);
-		System.out.println("CoordonnÃ©e X de la face A ?");
-		while (!scan.hasNext("[1-9]")) {
-			System.out.println("Entrez une coordonnÃ©e comprise entre 1 et 9");
-			scan.next();
-		}
-		cooX = scan.nextInt();
-		return cooX;
-
-	}
-
-	public static int choixCoordonneesY() {
-		int cooY;
-
-		Scanner scan = new Scanner(System.in);
-		System.out.println("CoordonnÃ©e Y de la face A ?");
-		while (!scan.hasNext("[1-9]")) {
-			System.out.println("Entrez une coordonnÃ©e comprise entre 1 et 9");
-			scan.next();
-		}
-		cooY = scan.nextInt();
-		return cooY;
-	}
-
-	// Choix de l'orientation du domino
-	public static String orientation() {
-		int sens;
-		String orientation = "";
-
-		Scanner scan = new Scanner(System.in);
-		System.out.println("Quel est le sens du domino ?");
-		System.out.println("Rotation 90Â° horaire");
-		System.out.println("1. Haut");
-		System.out.println("2. Droite");
-		System.out.println("3. Bas");
-		System.out.println("4. Gauche");
-
-		while (!scan.hasNext("[1-4]")) {
-			System.out.println("Entrez un nombre entre 1 et 4");
-			scan.next();
-		}
-		sens = scan.nextInt();
-
-		switch (sens) {
-		case 1:
-			orientation = "Haut";
-
-		case 2:
-			orientation = "Droite";
-
-		case 3:
-			orientation = "Bas";
-
-		case 4:
-			orientation = "Gauche";
-
-		}
-		return orientation;
-
-	}
-
-	// CoordonnÃ©es de B ( Rotation )
-	public static int[] rotation(String orientation, int cooX, int cooY) {
-		int[] cooB = new int[2];
-		int cooX2 = 1;
-		int cooY2 = 2;
-		switch (orientation) {
-		case ("Haut"):
-			cooX2 = cooX;
-			cooY2 = cooY - 1;
-			break;
-		case ("Droite"):
-			cooX2 = cooX - 1;
-			cooY2 = cooY;
-			break;
-		case ("Bas"):
-			cooX2 = cooX;
-			cooY2 = cooY + 1;
-			break;
-		case ("Gauche"):
-			cooX2 = cooX + 1;
-			cooY2 = cooY;
-			break;
-		}
-
-		cooB[0] = cooX2;
-		cooB[1] = cooY2;
-
-		return cooB;
-
-	}
-
-	public static boolean testB(int[] cooB) {
-
-		if (!((cooB[0] >= 1) && (cooB[0] <= 9))) {
-			System.out.println("Rotation incorrecte !");
-			return false;
-		}
-
-		else if (!((cooB[1] >= 1) && (cooB[1] <= 9))) {
-			System.out.println("Rotation incorrecte !");
-			return false;
-
-		}
-
-		else {
-			return true;
-		}
-	}
-
-	// CoordonnÃ©es de A ( sous la forme d'une seule variable )
-	public static int[] coordonneesA(int cooX, int cooY) {
-		int[] cooA = new int[2];
-		cooA[0] = cooX;
-		cooA[1] = cooY;
-
-		return cooA;
-	}
-
-	// Check list pour poser le domino :
-	// Cases cooA et cooB dans les limites du plateau.
-	// Cases en cooA et cooB libres.
-	// Cases adjacentes selon les rÃ¨gles :
-	// - SI TOUR 1 : Adjacent au chÃ¢teau.
-	// - SI TOUR n : Liens de Terrain.
-
-	// public static boolean libre(int[] cooA,int[] cooB) {
-
-	// }
-
-	public void Toursuivant() {
-
-		ordredomino.sort(Comparator.comparing(Domino::getNumDomino));
-
-		if (Joueurs.nbrjoueurs == 2) {
-			for (Joueurs jou : listjoueurs) {
-				if (jou.dominojoueurs.contains(ordredomino.get(3))) {
-					jou.setId(4);
-				}
-
-				if (jou.dominojoueurs.contains(ordredomino.get(2))) {
-					jou.setId(2);
-
-				}
-				if (jou.dominojoueurs.contains(ordredomino.get(1))) {
-					jou.setId(1);
-				}
-
-				if (jou.dominojoueurs.contains(ordredomino.get(0))) {
-					jou.setId(0);
-				}
-
-			}
-		}
-		listjoueurs.sort(Comparator.comparing(Joueurs::getId));
-
-		if (Joueurs.nbrjoueurs == 3) {
-			for (Joueurs jou : listjoueurs) {
-
-				if (jou.dominojoueurs.contains(ordredomino.get(0))) {
-					jou.setId(0);
-				}
-				if (jou.dominojoueurs.contains(ordredomino.get(1))) {
-					jou.setId(1);
-				}
-				if (jou.dominojoueurs.contains(ordredomino.get(2))) {
-					jou.setId(2);
-				}
-			}
-
-		}
-		listjoueurs.sort(Comparator.comparing(Joueurs::getId));
-
-		if (Joueurs.nbrjoueurs == 4) {
-			for (Joueurs jou : listjoueurs) {
-				if (jou.dominojoueurs.contains(ordredomino.get(0))) {
-					jou.setId(0);
-				}
-				if (jou.dominojoueurs.contains(ordredomino.get(1))) {
-					jou.setId(1);
-				}
-				if (jou.dominojoueurs.contains(ordredomino.get(2))) {
-					jou.setId(2);
-				}
-				if (jou.dominojoueurs.contains(ordredomino.get(3))) {
-					jou.setId(4);
-				}
-			}
-		}
-		listjoueurs.sort(Comparator.comparing(Joueurs::getId));
-
-		// voir qui a le domino le plus petit et set son id à 0
-
-	}
-
 	public void mesDom() {
 
 		for (Joueurs mesdomi : listjoueurs)
@@ -417,8 +217,6 @@ public class Deroulement {
 			}
 
 	}
-
-	// on fixe le nombre de domino en fonction du nombre de joueurs.
 	public void NombreDomino() {
 		Random rand = new Random();
 		if (Joueurs.nbrjoueurs == 2) {
@@ -442,7 +240,6 @@ public class Deroulement {
 		}
 		System.out.println("--------------------------------------");
 	}
-
 	public void showdomino() {
 
 		for (Domino domi : listdomino) {
@@ -450,20 +247,6 @@ public class Deroulement {
 		}
 		System.out.println("----------------");
 	}
-
-	public void NombreJoueurs() {
-		Scanner nbjoueur = new Scanner(System.in);
-		System.out.println(
-				"Tout d'abord il vous faut indiquer ci dessous le nombre de joueur compris entre 2 et 4 joueurs:  ");
-		while (!nbjoueur.hasNext("[2-4]")) {
-			System.out.println("-----------Attention, veuillez resaisir le nombre de joueurs---------");
-			nbjoueur.next();
-		}
-		Joueurs.nbrjoueurs = nbjoueur.nextInt();
-
-	}
-
-	// on melange les dominos.
 	public void Melangerdom() {
 
 		System.out.println("Les " + listdomino.size() + " dominos sont mélangés");
@@ -472,7 +255,6 @@ public class Deroulement {
 			System.out.println("domino est " + listdomino.get(i).getNumDomino());
 		}
 	}
-
 	public void tiredomino() {
 
 		if (Joueurs.nbrjoueurs == 2 || Joueurs.nbrjoueurs == 4) {
@@ -492,15 +274,34 @@ public class Deroulement {
 		}
 
 	}
-
-	public void showpioche() {// Nous montre les dominos dans la pioche
+	public void showpioche() {
+		// Nous montre les dominos dans la pioche
 		pioche.sort(Comparator.comparing(Domino::getNumDomino));
 		for (Domino domipioche : pioche) {
 			System.out.println("le domino dans la pioche est :" + domipioche.getNumDomino());
 
 		}
 	}
+	
+//FONCTION ANNEXES JOUEUR
+	
+	public void creationJoueur() {
+		NombreJoueurs();
 
+		NomJoueur();
+
+	}
+	public void NombreJoueurs() {
+		Scanner nbjoueur = new Scanner(System.in);
+		System.out.println(
+				"Tout d'abord il vous faut indiquer ci dessous le nombre de joueur compris entre 2 et 4 joueurs:  ");
+		while (!nbjoueur.hasNext("[2-4]")) {
+			System.out.println("-----------Attention, veuillez resaisir le nombre de joueurs---------");
+			nbjoueur.next();
+		}
+		Joueurs.nbrjoueurs = nbjoueur.nextInt();
+
+	}
 	public void NomJoueur() {
 		System.out.println("Rentrez le noms des participants");
 		Scanner scan = new Scanner(System.in);
@@ -513,7 +314,6 @@ public class Deroulement {
 
 		}
 	}
-
 	public void ChoisirRois() {
 		Rois bleu = new Rois(Couleur.BLEU, 1);
 		Rois jaune = new Rois(Couleur.JAUNE, 2);
@@ -637,7 +437,236 @@ public class Deroulement {
 			}
 		}
 	}
+	public int scoreJoueur(Joueurs jou) {
+		
+		
+		
+		return 0;
+		
+	}
+//FONCTIONS ANNEXES PLATEAU
+	
+	public void plateauJoueur() {
+		for (Joueurs jou:listjoueurs) {
+			
+			Espace individuel = new Espace();
+			jou.setPlateau(individuel);
+			
+			Espaces.add(individuel);
+		}
 
+		
+	
+	}
+	public void printPlateau(Joueurs jou) {
+		Type check = Type.VIDE;
+		
+		
+		for (int i = 0; i < jou.getPlateau().grille.length; i++) {
+			for (int j = 0; j < jou.getPlateau().grille[i].length ; j++) {
+				if (jou.getPlateau().grille[i][j].getTerrain() != check) {
+					jou.getPlateau().print(i,j);
+				}
+				else {
+					System.out.print("| _ ");
+				}
+			}
+			System.out.println("|");
+			System.out.println("");
+			
+		}
+	}
+	public static int choixCoordonneesX() {
+		int cooX;
+
+		Scanner scan = new Scanner(System.in);
+		System.out.println("CoordonnÃ©e X de la face A ?");
+		while (!scan.hasNext("[1-9]")) {
+			System.out.println("Entrez une coordonnÃ©e comprise entre 1 et 9");
+			scan.next();
+		}
+		cooX = scan.nextInt();
+		return cooX;
+
+	}
+	public static int choixCoordonneesY() {
+		int cooY;
+
+		Scanner scan = new Scanner(System.in);
+		System.out.println("CoordonnÃ©e Y de la face A ?");
+		while (!scan.hasNext("[1-9]")) {
+			System.out.println("Entrez une coordonnÃ©e comprise entre 1 et 9");
+			scan.next();
+		}
+		cooY = scan.nextInt();
+		return cooY;
+	}
+	public static String orientation() { // Choix de l'orientation du domino
+		int sens;
+		String orientation = "";
+
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Quel est le sens du domino ?");
+		System.out.println("Rotation 90Â° horaire");
+		System.out.println("1. Haut");
+		System.out.println("2. Droite");
+		System.out.println("3. Bas");
+		System.out.println("4. Gauche");
+
+		while (!scan.hasNext("[1-4]")) {
+			System.out.println("Entrez un nombre entre 1 et 4");
+			scan.next();
+		}
+		sens = scan.nextInt();
+
+		switch (sens) {
+		case 1:
+			orientation = "Haut";
+
+		case 2:
+			orientation = "Droite";
+
+		case 3:
+			orientation = "Bas";
+
+		case 4:
+			orientation = "Gauche";
+
+		}
+		return orientation;
+
+	}
+	public static int[] rotation(String orientation, int cooX, int cooY) {
+		int[] cooB = new int[2];
+		int cooX2 = 1;
+		int cooY2 = 2;
+		switch (orientation) {
+		case ("Haut"):
+			cooX2 = cooX;
+			cooY2 = cooY - 1;
+			break;
+		case ("Droite"):
+			cooX2 = cooX - 1;
+			cooY2 = cooY;
+			break;
+		case ("Bas"):
+			cooX2 = cooX;
+			cooY2 = cooY + 1;
+			break;
+		case ("Gauche"):
+			cooX2 = cooX + 1;
+			cooY2 = cooY;
+			break;
+		}
+
+		cooB[0] = cooX2;
+		cooB[1] = cooY2;
+
+		return cooB;
+
+	}
+	public static boolean testB(int[] cooB) {// CoordonnÃ©es de A ( sous la forme d'une seule variable )
+
+		if (!((cooB[0] >= 1) && (cooB[0] <= 9))) {
+			System.out.println("Rotation incorrecte !");
+			return false;
+		}
+
+		else if (!((cooB[1] >= 1) && (cooB[1] <= 9))) {
+			System.out.println("Rotation incorrecte !");
+			return false;
+
+		}
+
+		else {
+			return true;
+		}
+	}
+	public  int[] coordonneesA(int cooX, int cooY) {
+		int[] cooA = new int[2];
+		cooA[0] = cooX;
+		cooA[1] = cooY;
+
+		return cooA;
+	}
+
+	// Check list pour poser le domino :
+	// Cases cooA et cooB dans les limites du plateau.
+	// Cases en cooA et cooB libres.
+	// Cases adjacentes selon les rÃ¨gles :
+	// - SI TOUR 1 : Adjacent au chÃ¢teau.
+	// - SI TOUR n : Liens de Terrain.
+
+	
+// FONCTION ANNEXES POUR TOUR SUIVANT
+	public void Toursuivant() {
+
+		ordredomino.sort(Comparator.comparing(Domino::getNumDomino));
+
+		if (Joueurs.nbrjoueurs == 2) {
+			for (Joueurs jou : listjoueurs) {
+				if (jou.dominojoueurs.contains(ordredomino.get(3))) {
+					jou.setId(4);
+				}
+
+				if (jou.dominojoueurs.contains(ordredomino.get(2))) {
+					jou.setId(2);
+
+				}
+				if (jou.dominojoueurs.contains(ordredomino.get(1))) {
+					jou.setId(1);
+				}
+
+				if (jou.dominojoueurs.contains(ordredomino.get(0))) {
+					jou.setId(0);
+				}
+
+			}
+		}
+		listjoueurs.sort(Comparator.comparing(Joueurs::getId));
+
+		if (Joueurs.nbrjoueurs == 3) {
+			for (Joueurs jou : listjoueurs) {
+
+				if (jou.dominojoueurs.contains(ordredomino.get(0))) {
+					jou.setId(0);
+				}
+				if (jou.dominojoueurs.contains(ordredomino.get(1))) {
+					jou.setId(1);
+				}
+				if (jou.dominojoueurs.contains(ordredomino.get(2))) {
+					jou.setId(2);
+				}
+			}
+
+		}
+		listjoueurs.sort(Comparator.comparing(Joueurs::getId));
+
+		if (Joueurs.nbrjoueurs == 4) {
+			for (Joueurs jou : listjoueurs) {
+				if (jou.dominojoueurs.contains(ordredomino.get(0))) {
+					jou.setId(0);
+				}
+				if (jou.dominojoueurs.contains(ordredomino.get(1))) {
+					jou.setId(1);
+				}
+				if (jou.dominojoueurs.contains(ordredomino.get(2))) {
+					jou.setId(2);
+				}
+				if (jou.dominojoueurs.contains(ordredomino.get(3))) {
+					jou.setId(4);
+				}
+			}
+		}
+		listjoueurs.sort(Comparator.comparing(Joueurs::getId));
+
+		// voir qui a le domino le plus petit et set son id à 0
+
+	}
+
+
+	
+//Affichage CSV
 	public void creationliste() throws FileNotFoundException, IOException {
 
 		String line = "";
