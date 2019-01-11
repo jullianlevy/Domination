@@ -446,6 +446,102 @@ public class Deroulement {
 	}
 //FONCTIONS ANNEXES PLATEAU
 	
+	
+	
+	// Check list pour poser le domino :
+	// Cases cooA et cooB dans les limites du plateau. OUI
+	// Cases en cooA et cooB libres. OUI 
+	// Cases adjacentes selon les rÃ¨gles : 
+	//       - SI TOUR 1 : Adjacent au chÃ¢teau.OUI
+	//       - SI TOUR n : Liens de Terrain.  OUI
+	
+	// Check : estlibre renvoie true ( implique libreA et libreB true ) ; terrainOK renvoie true. 
+	
+	public boolean estLibre() {
+		if (libreA(coordonneesA(choixCoordonneesX(),choixCoordonneesY())) == true) {
+			return true;
+		}
+		else if (libreB(rotation(orientation(), choixCoordonneesX(),choixCoordonneesY())) == true) {
+			return true;
+		}
+		else {return false;}
+	}
+	
+	public boolean libreA(int[] cooA) {
+		Type testLibre = grille[cooA[0]][cooA[1]].getTerrain();
+		if (testLibre == Type.VIDE) {
+			return true;
+		}
+		else { 
+			System.out.println("Une des cases n'est pas vide !");
+			return false;
+		}
+
+	}
+	
+	public boolean libreB(int[] cooB) {
+		Type testLibre = grille[cooB[0]][cooB[1]].getTerrain();
+		if (testLibre == Type.VIDE) {
+			return true;
+		}
+		else { 
+			System.out.println("Une des cases n'est pas vide !");
+			return false;
+		}
+
+	}
+
+	public boolean terrainOK(int a, int[] cooA, int[] cooB) {
+		int xA = cooA[0];
+		int yA = cooA[1];
+		int xB = cooB[0];
+		int yB = cooB[1];
+		
+		Type testChateau = Type.CHATEAU;
+		for(Joueurs joueur:listjoueurs) {
+			for (Domino dom : joueur.dominojoueurs ) {
+				
+			
+				if (a == 1) {
+					if (joueur.getPlateau().grille[xA][yA+1].getTerrain() == testChateau || joueur.getPlateau().grille[xA][yA-1].getTerrain() == testChateau || joueur.getPlateau().grille[xA+1][yA].getTerrain() == testChateau || joueur.getPlateau().grille[xA-1][yA].getTerrain() == testChateau ) {
+						return true; 
+					}
+					else if (joueur.getPlateau().grille[xB][yB+1].getTerrain() == testChateau || joueur.getPlateau().grille[xB][yB-1].getTerrain() == testChateau || joueur.getPlateau().grille[xB+1][yB].getTerrain() == testChateau || joueur.getPlateau().grille[xB-1][yB].getTerrain() == testChateau ) {
+						return true;
+					}
+					else { 
+						System.out.println("Veuillez placer votre 1er domino à cote du chateau.");
+						return false;
+					}
+				}
+				else {
+					String terrainA = dom.facegauche.gettypeface();
+					String terrainB = dom.facedroite.gettypeface();
+					
+					Type sameA = Type.valueOf(terrainA);
+					Type sameB = Type.valueOf(terrainB);
+					
+					if (joueur.getPlateau().grille[xA][yA+1].getTerrain() == sameA || joueur.getPlateau().grille[xA][yA-1].getTerrain() == sameA || joueur.getPlateau().grille[xA+1][yA].getTerrain() == sameA || joueur.getPlateau().grille[xA-1][yA].getTerrain() == sameA || 
+joueur.getPlateau().grille[xA][yA+1].getTerrain() == testChateau || joueur.getPlateau().grille[xA][yA-1].getTerrain() == testChateau || joueur.getPlateau().grille[xA+1][yA].getTerrain() == testChateau ||joueur.getPlateau().grille[xA-1][yA].getTerrain() == testChateau) {
+						return true;
+					}
+					else if (joueur.getPlateau().grille[xB][yB+1].getTerrain() == sameB || joueur.getPlateau().grille[xB][yB-1].getTerrain() == sameB || joueur.getPlateau().grille[xB+1][yB].getTerrain() == sameB || joueur.getPlateau().grille[xB-1][yB].getTerrain() == sameB || 
+joueur.getPlateau().grille[xB][yB+1].getTerrain() == testChateau || joueur.getPlateau().grille[xB][yB-1].getTerrain() == testChateau || joueur.getPlateau().grille[xB+1][yB].getTerrain() == testChateau ||joueur.getPlateau().grille[xB-1][yB].getTerrain() == testChateau) {
+						return true; 
+					}
+					else {
+						System.out.println("Terrain non valide.");
+						return false; 
+					}
+				}
+			
+		}
+		
+		}
+
+	}
+
+	
 	public void plateauJoueur() {
 		for (Joueurs jou:listjoueurs) {
 			
