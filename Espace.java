@@ -30,7 +30,6 @@ class Espace {
 	
 	public void printPlateau() {
 		Type check = Type.VIDE;
-		grille[2][3].setTerrain(Type.MONTAGNE);
 		for (int i = 0; i < grille.length; i++) {
 			for (int j = 0; j < grille[i].length ; j++) {
 				if (grille[i][j].getTerrain() != check) {
