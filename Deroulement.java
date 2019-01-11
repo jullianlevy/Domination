@@ -52,6 +52,16 @@ public class Deroulement {
 		}
 
 	}
+	
+	public void placeDomino() {
+	choixCoordonneesX();
+	choixCoordonneesY();
+	orientation();
+	rotation(orientation(), choixCoordonneesX(),choixCoordonneesY());
+	testB(rotation(orientation(),choixCoordonneesX(),choixCoordonneesY()));
+	coordonneesA(choixCoordonneesX(),choixCoordonneesY());
+
+	}
 
 	public void creationJoueur() {
 		NombreJoueurs();
@@ -309,7 +319,7 @@ public class Deroulement {
 	}
 
 	// CoordonnÃ©es de A ( sous la forme d'une seule variable )
-	public static int[] coordonnesA(int cooX, int cooY) {
+	public static int[] coordonneesA(int cooX, int cooY) {
 		int[] cooA = new int[2];
 		cooA[0] = cooX;
 		cooA[1] = cooY;
