@@ -4,16 +4,23 @@ import java.util.List;
 import java.util.Scanner;
 
 class Espace {
-	static final int largeurY=9;
-	static final int longueurX=9;
+	final int largeurY=9;
+	final int longueurX=9;
 	Case[][] grille=new Case[longueurX][largeurY];
 	
 	static ArrayList<Espace> Espaces = new ArrayList<Espace>();
 	
+	public Espace() {
+		initPlateau();
+		printPlateau();
+	}
+
 	
-	public void Plateau(){
-		for(int i=0;i<longueurX;i++){
-			for(int j=0;j<largeurY;j++){
+	
+	
+	public void initPlateau(){
+		for(int i=0;i<grille.length;i++){
+			for(int j=0;j<grille[i].length;j++){
 				this.grille[i][j]=new Case(i,j);
 			}
 		}
@@ -21,8 +28,19 @@ class Espace {
 		chateau.setTerrain(TypeTerrain.CHATEAU);
 		chateau.setNbCouronne(0);
 	}
-		
-	public static void plateauJoueur() {
+	
+	public void printPlateau() {
+		for (int i = 0; i < grille.length; i++) {
+			System.out.print("| _ ");
+			for (int j = 0; j < grille[i].length - 1; j++) {
+				System.out.print("| _ ");
+			}
+			System.out.println("|");
+			System.out.println("");
+			
+		}
+	}
+	public void plateauJoueur() {
 		for (int i = 0; i < Joueurs.nbrjoueurs; i++) {
 			Espace individuel = new Espace();
 			Espaces.add(individuel);
@@ -34,7 +52,8 @@ class Espace {
 			i++;
 		}
 	}
-		
+	
+	
 
 	
 		
@@ -117,12 +136,9 @@ class Espace {
 		
 		case 4: 
 			orientation="Gauche";
-		
-		return orientation;
-			
-		
 			
 		}
+		return orientation;
 		
 		
 	}	
@@ -193,11 +209,13 @@ class Espace {
 	//       - SI TOUR 1 : Adjacent au chÃ¢teau.
 	//       - SI TOUR n : Liens de Terrain. 
 	
-	public static boolean libre(int[] cooA,int[] cooB) {
+	//public static boolean libre(int[] cooA,int[] cooB) {
 
-	}
+	//}
 
 
 	
 
 }
+
+		
