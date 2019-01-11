@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class Deroulement {
+
 	ArrayList<String> couleur = new ArrayList<String>();
 	ArrayList<Joueurs> listjoueurs = new ArrayList<>();
 	ArrayList<Domino> listdomino = new ArrayList<>();
@@ -26,39 +27,44 @@ public class Deroulement {
 		creationliste();
 		Jeux();
 
-		
 	}
-
-	
 
 	// On prepare le jeux
 	public void Jeux() {
 		NombreDomino();
 		System.out.println("-------------");
-
-		Melangerdom();
-		System.out.println("-------------");
-
-		tiredomino();
-		System.out.println("-------------");
 		ChoisirRois();
 		System.out.println("-------------");
 		System.out.println("------   LE JEUX COMMENCE   -----");
-		
-		showpioche();
-		choisirdomino();
-		System.out.println("----  LIST ORDRE CONTIENT-------");
-		Toursuivant();
-		
 
-	}public void creationJoueur() {
+		for (int i = 0; i < 3; i++) {
+			int a = i + 1;
+			System.out.println("---------   TOUR N°" + a + "   ----------");
+
+			tour();
+			Toursuivant();// Liste joueurs modifié (son id) pour le tour suivant
+		}
+
+	}
+
+	public void creationJoueur() {
 		NombreJoueurs();
 
 		NomJoueur();
 
 	}
 
+	public void tour() {
+		Melangerdom();
+		System.out.println("-------------");
 
+		tiredomino();
+		System.out.println("-------------");
+
+		showpioche();
+		choisirdomino();// choix domino
+
+	}
 
 	public void choisirdomino() {
 
@@ -90,7 +96,6 @@ public class Deroulement {
 				ordredomino.add(pioche.get(choixjoueur));
 
 				pioche.remove(pioche.get(choixjoueur));
-				
 
 			}
 			for (Joueurs joueur : listjoueurs) { // Chaque joueur doit choisir un domino
@@ -119,10 +124,8 @@ public class Deroulement {
 				ordredomino.add(pioche.get(choixjoueur));
 
 				pioche.remove(pioche.get(choixjoueur));
-				
 
 			}
-			
 
 		}
 
@@ -165,20 +168,68 @@ public class Deroulement {
 	}
 
 	public void Toursuivant() {
-		
 
-			ordredomino.sort(Comparator.comparing(Domino::getNumDomino));
-			for (Domino domi : ordredomino) {
-				System.out.println("domino dans la liste ordre domino " + domi.getNumDomino());
-				
+		ordredomino.sort(Comparator.comparing(Domino::getNumDomino));
+
+		if (Joueurs.nbrjoueurs == 2) {
+			for (Joueurs jou : listjoueurs) {
+				if (jou.dominojoueurs.contains(ordredomino.get(3))) {
+					jou.setId(4);
+				}
+
+				if (jou.dominojoueurs.contains(ordredomino.get(2))) {
+					jou.setId(2);
+
+				}
+				if (jou.dominojoueurs.contains(ordredomino.get(1))) {
+					jou.setId(1);
+				}
+
+				if (jou.dominojoueurs.contains(ordredomino.get(0))) {
+					jou.setId(0);
+				}
+
 			}
-			
-			
-			
+		}
+		listjoueurs.sort(Comparator.comparing(Joueurs::getId));
 
-			// voir qui a le domino le plus petit et set son id à 0
+		if (Joueurs.nbrjoueurs == 3) {
+			for (Joueurs jou : listjoueurs) {
 
-		
+				if (jou.dominojoueurs.contains(ordredomino.get(0))) {
+					jou.setId(0);
+				}
+				if (jou.dominojoueurs.contains(ordredomino.get(1))) {
+					jou.setId(1);
+				}
+				if (jou.dominojoueurs.contains(ordredomino.get(2))) {
+					jou.setId(2);
+				}
+			}
+
+		}
+		listjoueurs.sort(Comparator.comparing(Joueurs::getId));
+
+		if (Joueurs.nbrjoueurs == 4) {
+			for (Joueurs jou : listjoueurs) {
+				if (jou.dominojoueurs.contains(ordredomino.get(0))) {
+					jou.setId(0);
+				}
+				if (jou.dominojoueurs.contains(ordredomino.get(1))) {
+					jou.setId(1);
+				}
+				if (jou.dominojoueurs.contains(ordredomino.get(2))) {
+					jou.setId(2);
+				}
+				if (jou.dominojoueurs.contains(ordredomino.get(3))) {
+					jou.setId(4);
+				}
+			}
+		}
+		listjoueurs.sort(Comparator.comparing(Joueurs::getId));
+
+		// voir qui a le domino le plus petit et set son id à 0
+
 	}
 
 	public void mesDom() {
@@ -228,8 +279,6 @@ public class Deroulement {
 		}
 		System.out.println("----------------");
 	}
-
-	
 
 	public void NombreJoueurs() {
 		Scanner nbjoueur = new Scanner(System.in);
