@@ -642,7 +642,7 @@ joueur.getPlateau().grille[xB][yB+1].getTerrain() == testChateau || joueur.getPl
 			cooY2 = cooY - 1;
 			break;
 		case ("Droite"):
-			cooX2 = cooX - 1;
+			cooX2 = cooX + 1;
 			cooY2 = cooY;
 			break;
 		case ("Bas"):
@@ -650,7 +650,7 @@ joueur.getPlateau().grille[xB][yB+1].getTerrain() == testChateau || joueur.getPl
 			cooY2 = cooY + 1;
 			break;
 		case ("Gauche"):
-			cooX2 = cooX + 1;
+			cooX2 = cooX - 1;
 			cooY2 = cooY;
 			break;
 		}
