@@ -760,7 +760,77 @@ joueur.getPlateau().grille[xB][yB+1].getTerrain() == testChateau || joueur.getPl
 
 	}
 
-
+//FONCTIONS ANNEXES AU SCORE DES JOUEURS
+	public void remplissagecase(Joueurs joueur) {
+		for(int i=0;i<joueur.getPlateau().grille.length;i++){
+			for(int j=0;j<joueur.getPlateau().grille[i].length;j++){
+				joueur.listcase.add(joueur.getPlateau().grille[i][j]);
+				
+				
+			}
+		}
+	}
+	public java.util.ArrayList<Case> memeterrain(Case macase){
+		ArrayList<Case> sameterrain=new ArrayList<>();
+		if (macase.getTerrain()==Type.CHATEAU) {
+			return null;
+		}
+		Case caseA=new Case(macase.getPosX(),macase.getPosY()-1);
+		Case caseB=new Case(macase.getPosX(),macase.getPosY()+1);
+		Case caseC=new Case(macase.getPosX()-1,macase.getPosY());
+		Case caseD=new Case(macase.getPosX()+1,macase.getPosY());
+		if(macase.getTerrain()==caseA.getTerrain()) {
+			sameterrain.add(caseA);
+		}if(macase.getTerrain()==caseB.getTerrain()) {
+			sameterrain.add(caseB);
+		}if(macase.getTerrain()==caseC.getTerrain()) {
+			sameterrain.add(caseC);
+		}if(macase.getTerrain()==caseD.getTerrain()) {
+			sameterrain.add(caseD);
+		}
+		return sameterrain;
+		
+	}
+	
+	public void delimiterzone(Joueurs joueur) {
+		for(Case macase:joueur.listcase) {
+			boolean isContained = false;
+			for(ArrayList liste:joueur.listzone) {
+				if(liste.contains(macase)) {
+					isContained=true;
+					
+				}
+			}
+			if(isContained==false) {
+				ArrayList<Case> zoneterrain=new ArrayList<>();
+				for(Case lescases:memeterrain(macase)) {
+					zoneterrain.add(lescases);
+					joueur.listzone.add(zoneterrain);
+					
+				}
+			}
+		}
+		
+	}
+	public void scoretotal(Joueurs joueur) {
+		ArrayList<Integer> scorezone=new ArrayList<>();
+		for(java.util.ArrayList<Case> list:joueur.listzone) {
+			int nbrCouronneZone=0;
+			int nbrCaseZone=0;
+			for(Case unecase:list) {
+				nbrCaseZone+=1;
+				nbrCouronneZone+=unecase.getNbCouronne();
+				
+			}
+			int scoreinter=nbrCouronneZone*nbrCaseZone;
+			scorezone.add(scoreinter);
+		}
+		int scorefinal=0;
+		for(int i:scorezone) {
+			scorefinal+=i;
+		}
+		joueur.setScore(scorefinal);
+	}
 	
 //Affichage CSV
 	public void creationliste() throws FileNotFoundException, IOException {
