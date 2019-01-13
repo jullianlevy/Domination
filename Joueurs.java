@@ -15,7 +15,7 @@ public class Joueurs {
 	ArrayList<Case> listcase=new ArrayList<>();
 	
 
-	Espace plateau;
+	private Espace plateau;
 
 	public Joueurs(String name, int id) {
 		this.name = name;
@@ -57,5 +57,11 @@ public class Joueurs {
 	public void setId(int id) {
 		this.id = id;
 	}
+	public Espace getPlateau() {
+		return plateau;
+	}
 
+	public void setPlateau(Espace plateau) {
+		this.plateau = plateau;
+	}
 }
