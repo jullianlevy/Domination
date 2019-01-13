@@ -20,6 +20,7 @@ public class test {
 		System.out.println("--------------------------------------");
 		System.out.println("BIENVENUE DOMIN'ATION");
 		System.out.println("--------------------------------------");
+		System.out.println("ééééééééé");
 		System.out.println("");
 
 		Deroulement der = new Deroulement();
