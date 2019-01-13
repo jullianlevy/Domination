@@ -104,15 +104,14 @@ public class Deroulement {
 		// une fois que tt est ok passage Ã  un autre joueur
 
 		// Choix des CoordonnÃ©es du domino
+		System.out.println("C'est au tour de "+joueur.getName()+" de placer son domino");
 		for (Domino domi : joueur.dominojoueurs) {
-			choixCoordonneesX();
-			choixCoordonneesY();
+			printPlateau(joueur);
+			System.out.println("Pour le domino "+domi.getTypeFaceGauche()+domi.getNbCouronneFaceGauche()+"-"+domi.getTypeFaceDroite()+domi.getNbcCouronneDroite());
 			String x=orientation();
 			int[] coB=rotation(x, choixCoordonneesX(), choixCoordonneesY());
 			if(testB(coB)) {
 				int[] coA=coordonneesA(choixCoordonneesX(), choixCoordonneesY());
-				libreA(coA,joueur);
-				libreB(coB,joueur);
 				if(libreB(coA,joueur)==true&&libreB(coB,joueur)==true&&terrainOK(a,coA,coB,joueur,domi)==true) {
 					dominosurplateau(coA,coA,domi,joueur);
 					joueur.dominojoueurs.remove(domi);
