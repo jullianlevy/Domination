@@ -108,25 +108,30 @@ public class Deroulement {
 		for (Domino domi : joueur.dominojoueurs) {
 			printPlateau(joueur);
 			System.out.println("Pour le domino "+domi.getTypeFaceGauche()+domi.getNbCouronneFaceGauche()+"-"+domi.getTypeFaceDroite()+domi.getNbcCouronneDroite());
-			String x=orientation();
-			int[] coB=rotation(x, choixCoordonneesX(), choixCoordonneesY());
+			String z=orientation();
+			int x=choixCoordonneesX();
+			int y=choixCoordonneesY();
+			int[] coB=rotation(z, x, y);
 			if(testB(coB)) {
-				int[] coA=coordonneesA(choixCoordonneesX(), choixCoordonneesY());
+				int[] coA=coordonneesA(x, y);
 				if(libreB(coA,joueur)==true&&libreB(coB,joueur)==true&&terrainOK(a,coA,coB,joueur,domi)==true) {
 					dominosurplateau(coA,coA,domi,joueur);
 					joueur.dominojoueurs.remove(domi);
 				}
-				else {placeDomino(joueur,a);}
+				else {
+					System.out.println("Mauvaise Position!Redonnez une bonne position ");
+					placeDomino(joueur,a);}
 					
 			}
-			else {placeDomino(joueur,a);}
+			else {
+				System.out.println("Mauvaise Position!Votre domino sort du plateau");
+				placeDomino(joueur,a);}
 			
 			
 			
 		}
 
 	}
-
 	public void choisirdomino() {
 
 		if (Joueurs.nbrjoueurs == 2) {
