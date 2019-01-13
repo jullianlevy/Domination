@@ -11,7 +11,7 @@ class Espace {
 	
 	public Espace() {
 		initPlateau();
-		printPlateau();
+		
 	}
 
 	
@@ -28,22 +28,7 @@ class Espace {
 		chateau.setNbCouronne(0);
 	}
 	
-	public void printPlateau() {
-		Type check = Type.VIDE;
-		for (int i = 0; i < grille.length; i++) {
-			for (int j = 0; j < grille[i].length ; j++) {
-				if (grille[i][j].getTerrain() != check) {
-					print(i,j);
-				}
-				else {
-					System.out.print("| _ ");
-				}
-			}
-			System.out.println("|");
-			System.out.println("");
-			
-		}
-	}
+	
 	
 	public void print(int i, int j) {
 		Type type = grille[i][j].getTerrain();
