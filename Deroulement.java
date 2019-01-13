@@ -36,6 +36,7 @@ public class Deroulement {
 
 // DEBUT DU JEU
 	public void Jeux() {
+		creationliste();
 		creationJoueur();
 		plateauJoueur();
 		
@@ -78,6 +79,7 @@ public class Deroulement {
 		showpioche();
 		choisirdomino();// choix domino
 		for(Joueurs jou:listjoueurs) {
+			System.out.println("--------------------------------------");
 			printPlateau(jou);
 			placeDomino(jou,a);
 		}
@@ -493,9 +495,10 @@ public class Deroulement {
 	}
 	public int choixCoordonneesX() {
 		int cooX;
+		System.out.println("ou voulez vous placer la face gauche de votre domino?")
 
 		Scanner scan = new Scanner(System.in);
-		System.out.println("CoordonnÃ©e X de la face A ?");
+		System.out.println("CoordonnÃ©e X de la face gauche de votre domino?");
 		while (!scan.hasNext("[1-9]")) {
 			System.out.println("Entrez une coordonnÃ©e comprise entre 1 et 9");
 			scan.next();
@@ -508,7 +511,7 @@ public class Deroulement {
 		int cooY;
 
 		Scanner scan = new Scanner(System.in);
-		System.out.println("CoordonnÃ©e Y de la face A ?");
+		System.out.println("CoordonnÃ©e Y de la face gauche ?");
 		while (!scan.hasNext("[1-9]")) {
 			System.out.println("Entrez une coordonnÃ©e comprise entre 1 et 9");
 			scan.next();
@@ -521,8 +524,7 @@ public class Deroulement {
 		String orientation = "";
 
 		Scanner scan = new Scanner(System.in);
-		System.out.println("Quel est le sens du domino ?");
-		System.out.println("Rotation 90Â° horaire");
+		System.out.println("Ou voulez vous mettre votre face droite par rapport a la face gauche? ");
 		System.out.println("1. Haut");
 		System.out.println("2. Droite");
 		System.out.println("3. Bas");
