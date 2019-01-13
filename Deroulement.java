@@ -685,6 +685,18 @@ joueur.getPlateau().grille[xB][yB+1].getTerrain() == testChateau || joueur.getPl
 
 		return cooA;
 	}
+	public void dominosurplateau(int x,int y,Domino domi,Joueurs joueur) {
+		Type faceA=Type.valueOf(domi.facegauche.gettypeface());
+		joueur.getPlateau().grille[x][y].setTerrain(faceA);
+		joueur.getPlateau().grille[x][y].setNbCouronne(domi.facegauche.getNbCouronnes());
+		int[] a=rotation(orientation(),x,y);
+		Type faceB=Type.valueOf(domi.facedroite.gettypeface());
+		joueur.getPlateau().grille[a[0]][a[1]].setTerrain(faceB);
+		joueur.getPlateau().grille[a[0]][a[1]].setNbCouronne((domi.facedroite.getNbCouronnes()));
+		
+		
+		
+	}
 
 	// Check list pour poser le domino :
 	// Cases cooA et cooB dans les limites du plateau.
