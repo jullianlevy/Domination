@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Arrays;
 
-import javafx.scene.paint.Color;
+
 
 import java.util.Random;
 import java.util.Collections;
@@ -28,10 +28,7 @@ public class Deroulement {
 	public Deroulement() throws FileNotFoundException, IOException {
 
 		
-		for (Joueurs jo : listjoueurs) {
-			Espace plateau = new Espace();
-			
-		}
+		
 
 		Jeux();
 
@@ -40,26 +37,38 @@ public class Deroulement {
 // DEBUT DU JEU
 	public void Jeux() {
 		creationJoueur();
+		plateauJoueur();
 		
 		NombreDomino();
 		System.out.println("-------------");
 		ChoisirRois();
 		System.out.println("-------------");
 		System.out.println("------   LE JEUX COMMENCE   -----");
+		int a = 1;
 
-		for (int i = 0; i < 3; i++) {
-			int a = i + 1;
+		while(listdomino.size()!=0) {
 			System.out.println("---------   TOUR N°" + a + "   ----------");
 
-			tour();
+			tour(a);
 			Toursuivant();// Liste joueurs modifié (son id) pour le tour suivant
+			a++;
 		}
+		for(Joueurs joueur:listjoueurs) {
+			remplissagecase(joueur);
+			delimiterzone(joueur);
+			scoretotal(joueur);
+			System.out.println(joueur.getName()+"a obtenu le score de "+joueur.getScore());
+			}
+		
+		listjoueurs.sort(Comparator.comparing(Joueurs::getScore));
+		int numgagnant=Joueurs.nbrjoueurs-1;
+		System.out.println("Le gagnant est "+listjoueurs.get(numgagnant).getName());
 
 	}
 	
 //PREPARATION DE CHAQUE TOUR 
 	
-	public void tour() {
+	public void tour(int a) {
 		Melangerdom();
 		System.out.println("-------------");
 
@@ -70,7 +79,7 @@ public class Deroulement {
 		choisirdomino();// choix domino
 		for(Joueurs jou:listjoueurs) {
 			printPlateau(jou);
-			placeDomino();
+			placeDomino(jou,a);
 		}
 		
 
@@ -80,7 +89,7 @@ public class Deroulement {
 	
 //FONCTION ANNEXES DOMINO	
 	
-	public void placeDomino() {
+	public void placeDomino(Joueurs joueur,int a) {
 		
 		// 1. CoordonnÃ©es de la Face A.
 		// 2. Orientation du domino.
@@ -88,19 +97,33 @@ public class Deroulement {
 		// 4. est ce que c'est jouable AKA : - Cases a cotÃ© ( chateau + terrain )
 		// - x et y E 1 ; 9
 		// - Case nulle
-		// une fois que tt est ok passage Ã  un autre joueur
+		// une fois que tt est ok passage Ã  un autre joueur
 
 		// Choix des CoordonnÃ©es du domino
-		
-		choixCoordonneesX();
-		choixCoordonneesY();
-		orientation();
-		rotation(orientation(), choixCoordonneesX(),choixCoordonneesY());
-		testB(rotation(orientation(),choixCoordonneesX(),choixCoordonneesY()));
-		coordonneesA(choixCoordonneesX(),choixCoordonneesY());
-
+		for (Domino domi : joueur.dominojoueurs) {
+			choixCoordonneesX();
+			choixCoordonneesY();
+			String x=orientation();
+			int[] coB=rotation(x, choixCoordonneesX(), choixCoordonneesY());
+			if(testB(coB)) {
+				int[] coA=coordonneesA(choixCoordonneesX(), choixCoordonneesY());
+				libreA(coA,joueur);
+				libreB(coB,joueur);
+				if(libreB(coA,joueur)==true&&libreB(coB,joueur)==true&&terrainOK(a,coA,coB,joueur,domi)) {
+					dominosurplateau(coA,coA,domi,joueur);
+					joueur.dominojoueurs.remove(domi);
+				}
+				else {placeDomino(joueur,a);}
+					
+			}
+			else {placeDomino(joueur,a);}
+			
+			
+			
 		}
-	
+
+	}
+
 	public void choisirdomino() {
 
 		if (Joueurs.nbrjoueurs == 2) {
@@ -280,6 +303,7 @@ public class Deroulement {
 
 		}
 	}
+
 	
 //FONCTION ANNEXES JOUEUR
 	
@@ -435,110 +459,7 @@ public class Deroulement {
 			}
 		}
 	}
-	public int scoreJoueur(Joueurs jou) {
-		
-		
-		
-		return 0;
-		
-	}
 //FONCTIONS ANNEXES PLATEAU
-	
-	
-	
-	// Check list pour poser le domino :
-	// Cases cooA et cooB dans les limites du plateau. OUI
-	// Cases en cooA et cooB libres. OUI 
-	// Cases adjacentes selon les rÃ¨gles : 
-	//       - SI TOUR 1 : Adjacent au chÃ¢teau.OUI
-	//       - SI TOUR n : Liens de Terrain.  OUI
-	
-	// Check : estlibre renvoie true ( implique libreA et libreB true ) ; terrainOK renvoie true. 
-	
-	public boolean estLibre() {
-		if (libreA(coordonneesA(choixCoordonneesX(),choixCoordonneesY())) == true) {
-			return true;
-		}
-		else if (libreB(rotation(orientation(), choixCoordonneesX(),choixCoordonneesY())) == true) {
-			return true;
-		}
-		else {return false;}
-	}
-	
-	public boolean libreA(int[] cooA) {
-		Type testLibre = grille[cooA[0]][cooA[1]].getTerrain();
-		if (testLibre == Type.VIDE) {
-			return true;
-		}
-		else { 
-			System.out.println("Une des cases n'est pas vide !");
-			return false;
-		}
-
-	}
-	
-	public boolean libreB(int[] cooB) {
-		Type testLibre = grille[cooB[0]][cooB[1]].getTerrain();
-		if (testLibre == Type.VIDE) {
-			return true;
-		}
-		else { 
-			System.out.println("Une des cases n'est pas vide !");
-			return false;
-		}
-
-	}
-
-	public boolean terrainOK(int a, int[] cooA, int[] cooB) {
-		int xA = cooA[0];
-		int yA = cooA[1];
-		int xB = cooB[0];
-		int yB = cooB[1];
-		
-		Type testChateau = Type.CHATEAU;
-		for(Joueurs joueur:listjoueurs) {
-			for (Domino dom : joueur.dominojoueurs ) {
-				
-			
-				if (a == 1) {
-					if (joueur.getPlateau().grille[xA][yA+1].getTerrain() == testChateau || joueur.getPlateau().grille[xA][yA-1].getTerrain() == testChateau || joueur.getPlateau().grille[xA+1][yA].getTerrain() == testChateau || joueur.getPlateau().grille[xA-1][yA].getTerrain() == testChateau ) {
-						return true; 
-					}
-					else if (joueur.getPlateau().grille[xB][yB+1].getTerrain() == testChateau || joueur.getPlateau().grille[xB][yB-1].getTerrain() == testChateau || joueur.getPlateau().grille[xB+1][yB].getTerrain() == testChateau || joueur.getPlateau().grille[xB-1][yB].getTerrain() == testChateau ) {
-						return true;
-					}
-					else { 
-						System.out.println("Veuillez placer votre 1er domino à cote du chateau.");
-						return false;
-					}
-				}
-				else {
-					String terrainA = dom.facegauche.gettypeface();
-					String terrainB = dom.facedroite.gettypeface();
-					
-					Type sameA = Type.valueOf(terrainA);
-					Type sameB = Type.valueOf(terrainB);
-					
-					if (joueur.getPlateau().grille[xA][yA+1].getTerrain() == sameA || joueur.getPlateau().grille[xA][yA-1].getTerrain() == sameA || joueur.getPlateau().grille[xA+1][yA].getTerrain() == sameA || joueur.getPlateau().grille[xA-1][yA].getTerrain() == sameA || 
-joueur.getPlateau().grille[xA][yA+1].getTerrain() == testChateau || joueur.getPlateau().grille[xA][yA-1].getTerrain() == testChateau || joueur.getPlateau().grille[xA+1][yA].getTerrain() == testChateau ||joueur.getPlateau().grille[xA-1][yA].getTerrain() == testChateau) {
-						return true;
-					}
-					else if (joueur.getPlateau().grille[xB][yB+1].getTerrain() == sameB || joueur.getPlateau().grille[xB][yB-1].getTerrain() == sameB || joueur.getPlateau().grille[xB+1][yB].getTerrain() == sameB || joueur.getPlateau().grille[xB-1][yB].getTerrain() == sameB || 
-joueur.getPlateau().grille[xB][yB+1].getTerrain() == testChateau || joueur.getPlateau().grille[xB][yB-1].getTerrain() == testChateau || joueur.getPlateau().grille[xB+1][yB].getTerrain() == testChateau ||joueur.getPlateau().grille[xB-1][yB].getTerrain() == testChateau) {
-						return true; 
-					}
-					else {
-						System.out.println("Terrain non valide.");
-						return false; 
-					}
-				}
-			
-		}
-		
-		}
-
-	}
-
 	
 	public void plateauJoueur() {
 		for (Joueurs jou:listjoueurs) {
@@ -570,7 +491,7 @@ joueur.getPlateau().grille[xB][yB+1].getTerrain() == testChateau || joueur.getPl
 			
 		}
 	}
-	public static int choixCoordonneesX() {
+	public int choixCoordonneesX() {
 		int cooX;
 
 		Scanner scan = new Scanner(System.in);
@@ -583,7 +504,7 @@ joueur.getPlateau().grille[xB][yB+1].getTerrain() == testChateau || joueur.getPl
 		return cooX;
 
 	}
-	public static int choixCoordonneesY() {
+	public int choixCoordonneesY() {
 		int cooY;
 
 		Scanner scan = new Scanner(System.in);
@@ -595,7 +516,7 @@ joueur.getPlateau().grille[xB][yB+1].getTerrain() == testChateau || joueur.getPl
 		cooY = scan.nextInt();
 		return cooY;
 	}
-	public static String orientation() { // Choix de l'orientation du domino
+	public String orientation() { // Choix de l'orientation du domino
 		int sens;
 		String orientation = "";
 
@@ -630,7 +551,7 @@ joueur.getPlateau().grille[xB][yB+1].getTerrain() == testChateau || joueur.getPl
 		return orientation;
 
 	}
-	public static int[] rotation(String orientation, int cooX, int cooY) {
+	public int[] rotation(String orientation, int cooX, int cooY) {
 		int[] cooB = new int[2];
 		int cooX2 = 1;
 		int cooY2 = 2;
@@ -640,7 +561,7 @@ joueur.getPlateau().grille[xB][yB+1].getTerrain() == testChateau || joueur.getPl
 			cooY2 = cooY - 1;
 			break;
 		case ("Droite"):
-			cooX2 = cooX + 1;
+			cooX2 = cooX - 1;
 			cooY2 = cooY;
 			break;
 		case ("Bas"):
@@ -648,7 +569,7 @@ joueur.getPlateau().grille[xB][yB+1].getTerrain() == testChateau || joueur.getPl
 			cooY2 = cooY + 1;
 			break;
 		case ("Gauche"):
-			cooX2 = cooX - 1;
+			cooX2 = cooX + 1;
 			cooY2 = cooY;
 			break;
 		}
@@ -659,7 +580,7 @@ joueur.getPlateau().grille[xB][yB+1].getTerrain() == testChateau || joueur.getPl
 		return cooB;
 
 	}
-	public static boolean testB(int[] cooB) {// CoordonnÃ©es de A ( sous la forme d'une seule variable )
+	public boolean testB(int[] cooB) {// CoordonnÃ©es de A ( sous la forme d'une seule variable )
 
 		if (!((cooB[0] >= 1) && (cooB[0] <= 9))) {
 			System.out.println("Rotation incorrecte !");
@@ -683,18 +604,98 @@ joueur.getPlateau().grille[xB][yB+1].getTerrain() == testChateau || joueur.getPl
 
 		return cooA;
 	}
-	public void dominosurplateau(int x,int y,Domino domi,Joueurs joueur) {
+	public void dominosurplateau(int[] x,int[] y,Domino domi,Joueurs joueur) {
 		Type faceA=Type.valueOf(domi.facegauche.gettypeface());
-		joueur.getPlateau().grille[x][y].setTerrain(faceA);
-		joueur.getPlateau().grille[x][y].setNbCouronne(domi.facegauche.getNbCouronnes());
-		int[] a=rotation(orientation(),x,y);
+		joueur.getPlateau().grille[x[0]][x[1]].setTerrain(faceA);
+		joueur.getPlateau().grille[x[0]][x[1]].setNbCouronne(domi.facegauche.getNbCouronnes());
 		Type faceB=Type.valueOf(domi.facedroite.gettypeface());
-		joueur.getPlateau().grille[a[0]][a[1]].setTerrain(faceB);
-		joueur.getPlateau().grille[a[0]][a[1]].setNbCouronne((domi.facedroite.getNbCouronnes()));
+		joueur.getPlateau().grille[y[0]][y[1]].setTerrain(faceB);
+		joueur.getPlateau().grille[y[0]][y[1]].setNbCouronne((domi.facedroite.getNbCouronnes()));
 		
 		
 		
 	}
+	public boolean estLibre(Joueurs joueur) {
+		if (libreA(coordonneesA(choixCoordonneesX(),choixCoordonneesY()),joueur) == true) {
+			return true;
+		}
+		else if (libreB(rotation(orientation(), choixCoordonneesX(),choixCoordonneesY()),joueur) == true) {
+			return true;
+		}
+		else {return false;}
+	}
+	
+	public boolean libreA(int[] cooA, Joueurs joueur) {
+		Type testLibre = joueur.getPlateau().grille[cooA[0]][cooA[1]].getTerrain();
+		if (testLibre == Type.VIDE) {
+			return true;
+		}
+		else { 
+			System.out.println("Une des cases n'est pas vide !");
+			return false;
+		}
+
+	}
+
+	
+	public boolean libreB(int[] cooB,Joueurs joueur) {
+		Type testLibre = joueur.getPlateau().grille[cooB[0]][cooB[1]].getTerrain();
+		if (testLibre == Type.VIDE) {
+			return true;
+		}
+		else { 
+			System.out.println("Une des cases n'est pas vide !");
+			return false;
+		}
+
+	}
+
+	public boolean terrainOK(int a, int[] cooA, int[] cooB,Joueurs joueur,Domino dom) {
+		int xA = cooA[0];
+		int yA = cooA[1];
+		int xB = cooB[0];
+		int yB = cooB[1];
+		
+		Type testChateau = Type.CHATEAU;
+				
+			
+				if (a == 1) {
+					if (joueur.getPlateau().grille[xA][yA+1].getTerrain() == testChateau || joueur.getPlateau().grille[xA][yA-1].getTerrain() == testChateau || joueur.getPlateau().grille[xA+1][yA].getTerrain() == testChateau || joueur.getPlateau().grille[xA-1][yA].getTerrain() == testChateau ) {
+						return true; 
+					}
+					else if (joueur.getPlateau().grille[xB][yB+1].getTerrain() == testChateau || joueur.getPlateau().grille[xB][yB-1].getTerrain() == testChateau || joueur.getPlateau().grille[xB+1][yB].getTerrain() == testChateau || joueur.getPlateau().grille[xB-1][yB].getTerrain() == testChateau ) {
+						return true;
+					}
+					else { 
+						System.out.println("Veuillez placer votre 1er domino à cote du chateau.");
+						return false;
+					}
+				}
+				else {
+					String terrainA = dom.facegauche.gettypeface();
+					String terrainB = dom.facedroite.gettypeface();
+					
+					Type sameA = Type.valueOf(terrainA);
+					Type sameB = Type.valueOf(terrainB);
+					
+					if (joueur.getPlateau().grille[xA][yA+1].getTerrain() == sameA || joueur.getPlateau().grille[xA][yA-1].getTerrain() == sameA || joueur.getPlateau().grille[xA+1][yA].getTerrain() == sameA || joueur.getPlateau().grille[xA-1][yA].getTerrain() == sameA || joueur.getPlateau().grille[xA][yA+1].getTerrain() == testChateau || joueur.getPlateau().grille[xA][yA-1].getTerrain() == testChateau || joueur.getPlateau().grille[xA+1][yA].getTerrain() == testChateau ||joueur.getPlateau().grille[xA-1][yA].getTerrain() == testChateau) {
+						return true;
+					}
+					else if (joueur.getPlateau().grille[xB][yB+1].getTerrain() == sameB || joueur.getPlateau().grille[xB][yB-1].getTerrain() == sameB || joueur.getPlateau().grille[xB+1][yB].getTerrain() == sameB || joueur.getPlateau().grille[xB-1][yB].getTerrain() == sameB ||joueur.getPlateau().grille[xB][yB+1].getTerrain() == testChateau || joueur.getPlateau().grille[xB][yB-1].getTerrain() == testChateau || joueur.getPlateau().grille[xB+1][yB].getTerrain() == testChateau ||joueur.getPlateau().grille[xB-1][yB].getTerrain() == testChateau) { 
+
+
+						return true; 
+					}
+					else {
+						System.out.println("Terrain non valide.");
+						return false; 
+					}
+				}
+			
+		}
+		
+
+
 
 	// Check list pour poser le domino :
 	// Cases cooA et cooB dans les limites du plateau.
@@ -706,6 +707,7 @@ joueur.getPlateau().grille[xB][yB+1].getTerrain() == testChateau || joueur.getPl
 	
 // FONCTION ANNEXES POUR TOUR SUIVANT
 	public void Toursuivant() {
+
 
 		ordredomino.sort(Comparator.comparing(Domino::getNumDomino));
 
@@ -770,7 +772,8 @@ joueur.getPlateau().grille[xB][yB+1].getTerrain() == testChateau || joueur.getPl
 
 	}
 
-//FONCTIONS ANNEXES AU SCORE DES JOUEURS
+
+// FONCTION ANNEXES AU SCORE DE CHAQUE JOUEUR
 	public void remplissagecase(Joueurs joueur) {
 		for(int i=0;i<joueur.getPlateau().grille.length;i++){
 			for(int j=0;j<joueur.getPlateau().grille[i].length;j++){
