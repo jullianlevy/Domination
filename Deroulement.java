@@ -111,7 +111,7 @@ public class Deroulement {
 				int[] coA=coordonneesA(choixCoordonneesX(), choixCoordonneesY());
 				libreA(coA,joueur);
 				libreB(coB,joueur);
-				if(libreB(coA,joueur)==true&&libreB(coB,joueur)==true&&terrainOK(a,coA,coB,joueur,domi)) {
+				if(libreB(coA,joueur)==true&&libreB(coB,joueur)==true&&terrainOK(a,coA,coB,joueur,domi)==true) {
 					dominosurplateau(coA,coA,domi,joueur);
 					joueur.dominojoueurs.remove(domi);
 				}
