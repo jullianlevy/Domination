@@ -627,10 +627,10 @@ public class Deroulement {
 		return cooA;
 	}
 	public void dominosurplateau(int[] x,int[] y,Domino domi,Joueurs joueur) {
-		Type faceA=Type.valueOf(domi.facegauche.gettypeface());
+		Type faceA=Type.valueOf(domi.facegauche.gettypeface().toUpperCase());
 		joueur.getPlateau().grille[x[0]][x[1]].setTerrain(faceA);
 		joueur.getPlateau().grille[x[0]][x[1]].setNbCouronne(domi.facegauche.getNbCouronnes());
-		Type faceB=Type.valueOf(domi.facedroite.gettypeface());
+		Type faceB=Type.valueOf(domi.facedroite.gettypeface().toUpperCase());
 		joueur.getPlateau().grille[y[0]][y[1]].setTerrain(faceB);
 		joueur.getPlateau().grille[y[0]][y[1]].setNbCouronne((domi.facedroite.getNbCouronnes()));
 		
@@ -690,8 +690,8 @@ public class Deroulement {
 					}
 				}
 				else {
-					String terrainA = dom.facegauche.gettypeface();
-					String terrainB = dom.facedroite.gettypeface();
+					String terrainA = dom.facegauche.gettypeface().toUpperCase();
+					String terrainB = dom.facedroite.gettypeface().toUpperCase();
 					
 					Type sameA = Type.valueOf(terrainA);
 					Type sameB = Type.valueOf(terrainB);
