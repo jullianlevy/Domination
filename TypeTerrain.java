@@ -1,4 +1,4 @@
-public enum TypeTerrain {
+public enum Type {
 	VIDE,
 	FORET,
 	CHAMPS,
