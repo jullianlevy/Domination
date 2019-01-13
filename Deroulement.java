@@ -16,8 +16,6 @@ public class Deroulement {
 
 	ArrayList<String> couleur = new ArrayList<String>();
 	ArrayList<Joueurs> listjoueurs = new ArrayList<>();
-	ArrayList<ArrayList> listzone= new ArrayList<>();
-	ArrayList<Case> listcase=new ArrayList<>();
 	ArrayList<Domino> listdomino = new ArrayList<>();
 	ArrayList<Domino> pioche = new ArrayList<Domino>();
 	ArrayList<Rois> listrois = new ArrayList<Rois>();
