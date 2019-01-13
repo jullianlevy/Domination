@@ -35,20 +35,26 @@ public class Deroulement {
 	}
 
 // DEBUT DU JEU
-	public void Jeux() {
-		creationliste();
+	public void Jeux() throws FileNotFoundException, IOException {
 		creationJoueur();
+		creationliste();
 		plateauJoueur();
 		
 		NombreDomino();
-		System.out.println("-------------");
+		System.out.println("-----------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("-----------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("");
 		ChoisirRois();
-		System.out.println("-------------");
-		System.out.println("------   LE JEUX COMMENCE   -----");
+		System.out.println("----------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("------------------------------------|  LE JEUX COMMENCE  |------------------------------------------------------------------");
+		System.out.println("----------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("");
+		System.out.println("");
 		int a = 1;
 
 		while(listdomino.size()!=0) {
-			System.out.println("---------   TOUR N°" + a + "   ----------");
+			System.out.println("----------------------------------------   TOUR N°" + a + "   ----------------------------------------------------------");
+			System.out.println("");
 
 			tour(a);
 			Toursuivant();// Liste joueurs modifié (son id) pour le tour suivant
@@ -71,15 +77,12 @@ public class Deroulement {
 	
 	public void tour(int a) {
 		Melangerdom();
-		System.out.println("-------------");
-
 		tiredomino();
-		System.out.println("-------------");
-
 		showpioche();
 		choisirdomino();// choix domino
 		for(Joueurs jou:listjoueurs) {
-			System.out.println("--------------------------------------");
+			System.out.println("--------------- TOUR DE "+jou.getName()+"---------------------");
+			System.out.println("");
 			printPlateau(jou);
 			placeDomino(jou,a);
 		}
@@ -87,7 +90,6 @@ public class Deroulement {
 
 	}
 
-	
 	
 //FONCTION ANNEXES DOMINO	
 	
@@ -133,7 +135,7 @@ public class Deroulement {
 			for (Joueurs joueur : listjoueurs) { // Chaque joueur doit choisir un domino
 
 				System.out.println("C'est au tour de " + joueur.getName().toUpperCase() + " de jouer ");
-				System.out.println(" -------                                  ---------");
+				System.out.println("------------------------------------------------------------------");
 				int i = 0;
 
 				Scanner choixdomi = new Scanner(System.in);
@@ -224,7 +226,7 @@ public class Deroulement {
 		System.out.println("La pioche est terminé");
 		System.out.println("-----             --------");
 
-		mesDom();
+		
 	}
 	public void mesDom() {
 
@@ -248,20 +250,16 @@ public class Deroulement {
 
 				listdomino.remove(nbAleatoire);
 			}
-			for (int i = 0; i < listdomino.size(); i++) {
-				System.out.println("domino est " + listdomino.get(i).getNumDomino());
-			}
+			
 		}
 		if (Joueurs.nbrjoueurs == 3) {
 			for (int i = 0; i < 12; i++) {
 				int nbAleatoire = rand.nextInt(listdomino.size());
 				listdomino.remove(nbAleatoire);
 			}
-			for (int i = 0; i < listdomino.size(); i++) {
-				System.out.println("domino est " + listdomino.get(i).getNumDomino());
-			}
+			
 		}
-		System.out.println("--------------------------------------");
+		
 	}
 	public void showdomino() {
 
@@ -274,9 +272,8 @@ public class Deroulement {
 
 		System.out.println("Les " + listdomino.size() + " dominos sont mélangés");
 		Collections.shuffle(listdomino);
-		for (int i = 0; i < listdomino.size(); i++) {
-			System.out.println("domino est " + listdomino.get(i).getNumDomino());
-		}
+		System.out.println("");
+		
 	}
 	public void tiredomino() {
 
@@ -298,12 +295,25 @@ public class Deroulement {
 
 	}
 	public void showpioche() {
+		System.out.println("---------------------------------------------------------------------------------");
+		System.out.println("---------------------   VOICI LES DOMINOS DANS LA PIOCHE ------------------------");
+		System.out.println("---------------------------------------------------------------------------------");
+		System.out.println("");
+		System.out.println("");
 		// Nous montre les dominos dans la pioche
 		pioche.sort(Comparator.comparing(Domino::getNumDomino));
 		for (Domino domipioche : pioche) {
-			System.out.println("le domino dans la pioche est :" + domipioche.getNumDomino());
+			
+			
+		System.out.println("--------------------domino N°"+domipioche.getNumDomino()+"-----------------");
+		System.out.println("         "+domipioche.getTypeFaceGauche()+"            "+domipioche.getTypeFaceDroite()+"              ");
+		System.out.println("         "+domipioche.getNbCouronneFaceGauche()+"               	"+domipioche.getNbcCouronneDroite()+"         ");
+		System.out.println("-----------------------------------------------");
+		System.out.println("");
+			
 
 		}
+		System.out.println("");
 	}
 
 	
@@ -311,6 +321,7 @@ public class Deroulement {
 	
 	public void creationJoueur() {
 		NombreJoueurs();
+		System.out.println("                ");
 
 		NomJoueur();
 
@@ -318,7 +329,7 @@ public class Deroulement {
 	public void NombreJoueurs() {
 		Scanner nbjoueur = new Scanner(System.in);
 		System.out.println(
-				"Tout d'abord il vous faut indiquer ci dessous le nombre de joueur compris entre 2 et 4 joueurs:  ");
+				"----------------------Tout d'abord il vous faut indiquer ci dessous le nombre de joueur compris entre 2 et 4 joueurs--------------");
 		while (!nbjoueur.hasNext("[2-4]")) {
 			System.out.println("-----------Attention, veuillez resaisir le nombre de joueurs---------");
 			nbjoueur.next();
@@ -327,11 +338,14 @@ public class Deroulement {
 
 	}
 	public void NomJoueur() {
+		
 		System.out.println("Rentrez le noms des participants");
+		System.out.println("");
 		Scanner scan = new Scanner(System.in);
 		int i = 1;
 		for (i = 1; i < Joueurs.nbrjoueurs + 1; i++) {
 			System.out.print("pseudo du joueur" + i + " : ");
+			
 			Joueurs joueur = new Joueurs(scan.nextLine(), i);
 			listjoueurs.add(joueur);
 			System.out.println("");
@@ -356,8 +370,7 @@ public class Deroulement {
 				String var = joueurtest.getName();
 
 				System.out.println("");
-				System.out.println("Maintenant c'est au tour de " + joueurtest.getName().toUpperCase()
-						+ " de choisir la couleur de son rois");
+				System.out.println("Maintenant c'est au tour de " + joueurtest.getName().toUpperCase()+ " de choisir la couleur de son rois");
 
 				for (Rois roi : listrois) {
 					System.out.println(roi.getColorRoi() + "  : TAPER " + roi.getNbr());
@@ -365,7 +378,7 @@ public class Deroulement {
 				}
 				while (!rois.hasNext("[1-4]")) {
 
-					System.out.println("Cette couleur n'est pas disponible,veuillez saisir un chiffre entre 1 et 4");
+					System.out.println("----------------Attention,cette couleur n'est pas disponible,veuillez saisir un chiffre entre 1 et 4--------------------");
 					rois.next();
 
 				}
@@ -390,8 +403,8 @@ public class Deroulement {
 			for (Joueurs joueurtest : listjoueurs) {
 				Scanner rois = new Scanner(System.in);
 
-				System.out.println("Maintenant c'est au tour de " + joueurtest.getName().toUpperCase()
-						+ " de choisir la couleur de ses deux rois" + "/n");
+				System.out.println("Maintenant c'est au tour de " + joueurtest.getName().toUpperCase()+ " de choisir la couleur de ses deux rois");
+				System.out.println("");
 				System.out.println("Chossissez parmi ces rois ");
 
 				for (Rois roi : listrois) {
@@ -495,12 +508,13 @@ public class Deroulement {
 	}
 	public int choixCoordonneesX() {
 		int cooX;
-		System.out.println("ou voulez vous placer la face gauche de votre domino?")
+		
+		System.out.println("");
 
 		Scanner scan = new Scanner(System.in);
-		System.out.println("CoordonnÃ©e X de la face gauche de votre domino?");
+		System.out.println("Choix de la coordonnée selon l'axe des X compris entre [1-9] : ");
 		while (!scan.hasNext("[1-9]")) {
-			System.out.println("Entrez une coordonnÃ©e comprise entre 1 et 9");
+			System.out.println("Entrez une coordonnée comprise entre 1 et 9");
 			scan.next();
 		}
 		cooX = scan.nextInt();
@@ -511,9 +525,9 @@ public class Deroulement {
 		int cooY;
 
 		Scanner scan = new Scanner(System.in);
-		System.out.println("CoordonnÃ©e Y de la face gauche ?");
+		System.out.println("Choix de la coordonnée selon l'axe des Y compris entre [1-9] : ");
 		while (!scan.hasNext("[1-9]")) {
-			System.out.println("Entrez une coordonnÃ©e comprise entre 1 et 9");
+			System.out.println("Entrez une coordonnée comprise entre 1 et 9");
 			scan.next();
 		}
 		cooY = scan.nextInt();
@@ -525,6 +539,8 @@ public class Deroulement {
 
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Ou voulez vous mettre votre face droite par rapport a la face gauche? ");
+		System.out.println("--------------------------------------------------------------------- ");
+		System.out.println("");
 		System.out.println("1. Haut");
 		System.out.println("2. Droite");
 		System.out.println("3. Bas");
@@ -626,7 +642,6 @@ public class Deroulement {
 		}
 		else {return false;}
 	}
-	
 	public boolean libreA(int[] cooA, Joueurs joueur) {
 		Type testLibre = joueur.getPlateau().grille[cooA[0]][cooA[1]].getTerrain();
 		if (testLibre == Type.VIDE) {
@@ -638,8 +653,6 @@ public class Deroulement {
 		}
 
 	}
-
-	
 	public boolean libreB(int[] cooB,Joueurs joueur) {
 		Type testLibre = joueur.getPlateau().grille[cooB[0]][cooB[1]].getTerrain();
 		if (testLibre == Type.VIDE) {
@@ -651,7 +664,6 @@ public class Deroulement {
 		}
 
 	}
-
 	public boolean terrainOK(int a, int[] cooA, int[] cooB,Joueurs joueur,Domino dom) {
 		int xA = cooA[0];
 		int yA = cooA[1];
@@ -696,16 +708,6 @@ public class Deroulement {
 			
 		}
 		
-
-
-
-	// Check list pour poser le domino :
-	// Cases cooA et cooB dans les limites du plateau.
-	// Cases en cooA et cooB libres.
-	// Cases adjacentes selon les rÃ¨gles :
-	// - SI TOUR 1 : Adjacent au chÃ¢teau.
-	// - SI TOUR n : Liens de Terrain.
-
 	
 // FONCTION ANNEXES POUR TOUR SUIVANT
 	public void Toursuivant() {
