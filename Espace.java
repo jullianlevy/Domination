@@ -32,7 +32,7 @@ class Espace {
 	
 	public void print(int i, int j) {
 		Type type = grille[i][j].getTerrain();
-		System.out.print("|" +  type.toString().substring(0, 2)+ " ");
+		System.out.print("|" +  type.toString().substring(0, 2)+ " "+ grille[i][j].getNbCouronne()+" ");
 		} 
 
 
