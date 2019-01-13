@@ -11,6 +11,9 @@ public class Joueurs {
 
 	ArrayList<Rois> listrois = new ArrayList<Rois>();
 	ArrayList<Domino> dominojoueurs = new ArrayList<Domino>();
+	ArrayList<ArrayList> listzone= new ArrayList<>();
+	ArrayList<Case> listcase=new ArrayList<>();
+	
 
 	Espace plateau;
 
