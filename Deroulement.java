@@ -47,7 +47,7 @@ public class Deroulement {
 		System.out.println("");
 		ChoisirRois();
 		System.out.println("----------------------------------------------------------------------------------------------------------------------------");
-		System.out.println("------------------------------------|  LE JEUX COMMENCE  |------------------------------------------------------------------");
+		System.out.println("------------------------------------|  LE JEU COMMENCE  |------------------------------------------------------------------");
 		System.out.println("----------------------------------------------------------------------------------------------------------------------------");
 		System.out.println("");
 		System.out.println("");
@@ -523,9 +523,9 @@ public class Deroulement {
 		System.out.println("");
 
 		Scanner scan = new Scanner(System.in);
-		System.out.println("Choix de la coordonnée selon l'axe des X compris entre [1-9] : ");
-		while (!scan.hasNext("[1-9]")) {
-			System.out.println("Entrez une coordonnée comprise entre 1 et 9");
+		System.out.println("Choix de la coordonnée selon l'axe des X compris entre [0-8] : ");
+		while (!scan.hasNext("[0-8]")) {
+			System.out.println("Entrez une coordonnée comprise entre 0 et 8");
 			scan.next();
 		}
 		cooX = scan.nextInt();
@@ -536,9 +536,9 @@ public class Deroulement {
 		int cooY;
 
 		Scanner scan = new Scanner(System.in);
-		System.out.println("Choix de la coordonnée selon l'axe des Y compris entre [1-9] : ");
-		while (!scan.hasNext("[1-9]")) {
-			System.out.println("Entrez une coordonnée comprise entre 1 et 9");
+		System.out.println("Choix de la coordonnée selon l'axe des Y compris entre [0-8] : ");
+		while (!scan.hasNext("[0-8]")) {
+			System.out.println("Entrez une coordonnée comprise entre 0 et 8");
 			scan.next();
 		}
 		cooY = scan.nextInt();
@@ -582,24 +582,24 @@ public class Deroulement {
 	}
 	public int[] rotation(String orientation, int cooX, int cooY) {
 		int[] cooB = new int[2];
-		int cooX2 = 1;
-		int cooY2 = 2;
+		int cooX2;
+		int cooY2;
 		switch (orientation) {
 		case ("Haut"):
-			cooX2 = cooX;
-			cooY2 = cooY - 1;
-			break;
-		case ("Droite"):
 			cooX2 = cooX - 1;
 			cooY2 = cooY;
 			break;
-		case ("Bas"):
+		case ("Droite"):
 			cooX2 = cooX;
-			cooY2 = cooY + 1;
+			cooY2 = cooY - 1;
 			break;
-		case ("Gauche"):
+		case ("Bas"):
 			cooX2 = cooX + 1;
 			cooY2 = cooY;
+			break;
+		case ("Gauche"):
+			cooX2 = cooX;
+			cooY2 = cooY - 1;
 			break;
 		}
 
