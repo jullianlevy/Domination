@@ -1,3 +1,4 @@
+package jeux;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -83,8 +84,16 @@ public class Deroulement {
 		for(Joueurs jou:listjoueurs) {
 			System.out.println("--------------- TOUR DE "+jou.getName()+"---------------------");
 			System.out.println("");
-			printPlateau(jou);
-			placeDomino(jou,a);
+			for(Domino domi:jou.dominojoueurs) {
+				placeDomino(jou,domi,a);
+			}
+			if(Joueurs.nbrjoueurs==2) {
+				jou.dominojoueurs.remove(0);
+				jou.dominojoueurs.remove(1);
+			}
+			else {
+				jou.dominojoueurs.remove(0);
+			}
 		}
 		
 
@@ -93,7 +102,7 @@ public class Deroulement {
 	
 //FONCTION ANNEXES DOMINO	
 	
-	public void placeDomino(Joueurs joueur,int a) {
+	public void placeDomino(Joueurs joueur,Domino domi,int a) {
 		
 		// 1. CoordonnÃ©es de la Face A.
 		// 2. Orientation du domino.
@@ -105,7 +114,6 @@ public class Deroulement {
 
 		// Choix des CoordonnÃ©es du domino
 		System.out.println("C'est au tour de "+joueur.getName()+" de placer son domino");
-		for (Domino domi : joueur.dominojoueurs) {
 			printPlateau(joueur);
 			System.out.println("Pour le domino "+domi.getTypeFaceGauche()+domi.getNbCouronneFaceGauche()+"-"+domi.getTypeFaceDroite()+domi.getNbcCouronneDroite());
 			String z=orientation();
@@ -115,23 +123,22 @@ public class Deroulement {
 			if(testB(coB)) {
 				int[] coA=coordonneesA(x, y);
 				if(libreB(coA,joueur)==true&&libreB(coB,joueur)==true&&terrainOK(a,coA,coB,joueur,domi)==true) {
-					dominosurplateau(coA,coA,domi,joueur);
-					joueur.dominojoueurs.remove(domi);
+					dominosurplateau(coA,coB,domi,joueur);
 				}
 				else {
 					System.out.println("Mauvaise Position!Redonnez une bonne position ");
-					placeDomino(joueur,a);}
+					placeDomino(joueur,domi,a);}
 					
 			}
 			else {
 				System.out.println("Mauvaise Position!Votre domino sort du plateau");
-				placeDomino(joueur,a);}
+				placeDomino(joueur,domi,a);}
 			
 			
 			
 		}
 
-	}
+
 	public void choisirdomino() {
 
 		if (Joueurs.nbrjoueurs == 2) {
